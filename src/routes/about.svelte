@@ -29,6 +29,11 @@
   It is non-partisan and has received no outside funding.
 </p>
 
+<p>If you enjoy alternate voting systems, you may also enjoy
+  <a href="https://approval.vote">approval.vote</a>,
+  which is a similar project for approval voting electionss.
+</p>
+
 <h2>License</h2>
 
 <p>
