@@ -1,0 +1,277 @@
+{
+  "info": {
+    "name": "School Director, District 2 - Oakland",
+    "date": "2022-11-08",
+    "dataFormat": "nist_sp_1500",
+    "tabulationOptions": {
+      "eager": true,
+      "nycStyle": false
+    },
+    "jurisdictionPath": "us/ca/alameda",
+    "electionPath": "2022/11",
+    "office": "oakland-school-director-d2",
+    "officeName": "School Director, District 2 - Oakland",
+    "jurisdictionName": "Alameda County",
+    "electionName": "November 8, 2022 General Election",
+    "loaderParams": {
+      "contest": "85",
+      "cvr": "general",
+      "dropUnqualifiedWriteIn": "true"
+    },
+    "website": null
+  },
+  "ballotCount": 18869,
+  "candidates": [
+    {
+      "name": "Max Orozco",
+      "candidate_type": "Regular"
+    },
+    {
+      "name": "Jennifer Brouhard",
+      "candidate_type": "Regular"
+    },
+    {
+      "name": "David Kakishiba",
+      "candidate_type": "Regular"
+    }
+  ],
+  "rounds": [
+    {
+      "allocations": [
+        {
+          "allocatee": 1,
+          "votes": 7927
+        },
+        {
+          "allocatee": 2,
+          "votes": 5335
+        },
+        {
+          "allocatee": 0,
+          "votes": 2632
+        },
+        {
+          "allocatee": "X",
+          "votes": 2975
+        }
+      ],
+      "undervote": 2874,
+      "overvote": 101,
+      "continuingBallots": 15894,
+      "transfers": []
+    },
+    {
+      "allocations": [
+        {
+          "allocatee": 1,
+          "votes": 9886
+        },
+        {
+          "allocatee": 2,
+          "votes": 5612
+        },
+        {
+          "allocatee": "X",
+          "votes": 3371
+        }
+      ],
+      "undervote": 3252,
+      "overvote": 119,
+      "continuingBallots": 15498,
+      "transfers": [
+        {
+          "from": 0,
+          "to": 1,
+          "count": 1959
+        },
+        {
+          "from": 0,
+          "to": 2,
+          "count": 277
+        },
+        {
+          "from": 0,
+          "to": "X",
+          "count": 396
+        }
+      ]
+    }
+  ],
+  "winner": 1,
+  "condorcet": 1,
+  "numCandidates": 3,
+  "totalVotes": [
+    {
+      "candidate": 1,
+      "firstRoundVotes": 7927,
+      "transferVotes": 1959,
+      "roundEliminated": null
+    },
+    {
+      "candidate": 2,
+      "firstRoundVotes": 5335,
+      "transferVotes": 277,
+      "roundEliminated": null
+    },
+    {
+      "candidate": 0,
+      "firstRoundVotes": 2632,
+      "transferVotes": 0,
+      "roundEliminated": 1
+    }
+  ],
+  "pairwisePreferences": {
+    "rows": [
+      1,
+      2,
+      0
+    ],
+    "cols": [
+      1,
+      2,
+      0
+    ],
+    "entries": [
+      [
+        null,
+        {
+          "frac": 0.6378888,
+          "numerator": 9886,
+          "denominator": 15498
+        },
+        {
+          "frac": 0.7789074,
+          "numerator": 10879,
+          "denominator": 13967
+        }
+      ],
+      [
+        {
+          "frac": 0.36211124,
+          "numerator": 5612,
+          "denominator": 15498
+        },
+        null,
+        {
+          "frac": 0.6355203,
+          "numerator": 8563,
+          "denominator": 13474
+        }
+      ],
+      [
+        {
+          "frac": 0.22109258,
+          "numerator": 3088,
+          "denominator": 13967
+        },
+        {
+          "frac": 0.36447975,
+          "numerator": 4911,
+          "denominator": 13474
+        },
+        null
+      ]
+    ]
+  },
+  "firstAlternate": {
+    "rows": [
+      1,
+      2,
+      0
+    ],
+    "cols": [
+      1,
+      2,
+      0,
+      "X"
+    ],
+    "entries": [
+      [
+        null,
+        {
+          "frac": 0.40721583,
+          "numerator": 3228,
+          "denominator": 7927
+        },
+        {
+          "frac": 0.2874984,
+          "numerator": 2279,
+          "denominator": 7927
+        },
+        {
+          "frac": 0.30528572,
+          "numerator": 2420,
+          "denominator": 7927
+        }
+      ],
+      [
+        {
+          "frac": 0.5533271,
+          "numerator": 2952,
+          "denominator": 5335
+        },
+        null,
+        {
+          "frac": 0.08547329,
+          "numerator": 456,
+          "denominator": 5335
+        },
+        {
+          "frac": 0.36119962,
+          "numerator": 1927,
+          "denominator": 5335
+        }
+      ],
+      [
+        {
+          "frac": 0.7443009,
+          "numerator": 1959,
+          "denominator": 2632
+        },
+        {
+          "frac": 0.10524316,
+          "numerator": 277,
+          "denominator": 2632
+        },
+        null,
+        {
+          "frac": 0.15045592,
+          "numerator": 396,
+          "denominator": 2632
+        }
+      ]
+    ]
+  },
+  "firstFinal": {
+    "rows": [
+      0
+    ],
+    "cols": [
+      1,
+      2,
+      "X"
+    ],
+    "entries": [
+      [
+        {
+          "frac": 0.7443009,
+          "numerator": 1959,
+          "denominator": 2632
+        },
+        {
+          "frac": 0.10524316,
+          "numerator": 277,
+          "denominator": 2632
+        },
+        {
+          "frac": 0.15045592,
+          "numerator": 396,
+          "denominator": 2632
+        }
+      ]
+    ]
+  },
+  "smithSet": [
+    1
+  ]
+}

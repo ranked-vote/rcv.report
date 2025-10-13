@@ -1,0 +1,277 @@
+{
+  "info": {
+    "name": "School Director, District 4 - Oakland",
+    "date": "2022-11-08",
+    "dataFormat": "nist_sp_1500",
+    "tabulationOptions": {
+      "eager": true,
+      "nycStyle": false
+    },
+    "jurisdictionPath": "us/ca/alameda",
+    "electionPath": "2022/11",
+    "office": "oakland-school-director-d4",
+    "officeName": "School Director, District 4 - Oakland",
+    "jurisdictionName": "Alameda County",
+    "electionName": "November 8, 2022 General Election",
+    "loaderParams": {
+      "contest": "86",
+      "cvr": "general",
+      "dropUnqualifiedWriteIn": "true"
+    },
+    "website": null
+  },
+  "ballotCount": 32502,
+  "candidates": [
+    {
+      "name": "Mike Hutchinson",
+      "candidate_type": "Regular"
+    },
+    {
+      "name": "Pecolia Manigo",
+      "candidate_type": "Regular"
+    },
+    {
+      "name": "Nick Resnick",
+      "candidate_type": "Regular"
+    }
+  ],
+  "rounds": [
+    {
+      "allocations": [
+        {
+          "allocatee": 2,
+          "votes": 10493
+        },
+        {
+          "allocatee": 0,
+          "votes": 8647
+        },
+        {
+          "allocatee": 1,
+          "votes": 8568
+        },
+        {
+          "allocatee": "X",
+          "votes": 4794
+        }
+      ],
+      "undervote": 4633,
+      "overvote": 161,
+      "continuingBallots": 27708,
+      "transfers": []
+    },
+    {
+      "allocations": [
+        {
+          "allocatee": 0,
+          "votes": 13031
+        },
+        {
+          "allocatee": 2,
+          "votes": 12746
+        },
+        {
+          "allocatee": "X",
+          "votes": 6725
+        }
+      ],
+      "undervote": 6537,
+      "overvote": 188,
+      "continuingBallots": 25777,
+      "transfers": [
+        {
+          "from": 1,
+          "to": 0,
+          "count": 4384
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "count": 2253
+        },
+        {
+          "from": 1,
+          "to": "X",
+          "count": 1931
+        }
+      ]
+    }
+  ],
+  "winner": 0,
+  "condorcet": 0,
+  "numCandidates": 3,
+  "totalVotes": [
+    {
+      "candidate": 0,
+      "firstRoundVotes": 8647,
+      "transferVotes": 4384,
+      "roundEliminated": null
+    },
+    {
+      "candidate": 2,
+      "firstRoundVotes": 10493,
+      "transferVotes": 2253,
+      "roundEliminated": null
+    },
+    {
+      "candidate": 1,
+      "firstRoundVotes": 8568,
+      "transferVotes": 0,
+      "roundEliminated": 1
+    }
+  ],
+  "pairwisePreferences": {
+    "rows": [
+      0,
+      2,
+      1
+    ],
+    "cols": [
+      0,
+      2,
+      1
+    ],
+    "entries": [
+      [
+        null,
+        {
+          "frac": 0.5055282,
+          "numerator": 13031,
+          "denominator": 25777
+        },
+        {
+          "frac": 0.500063,
+          "numerator": 11901,
+          "denominator": 23799
+        }
+      ],
+      [
+        {
+          "frac": 0.49447182,
+          "numerator": 12746,
+          "denominator": 25777
+        },
+        null,
+        {
+          "frac": 0.512452,
+          "numerator": 12943,
+          "denominator": 25257
+        }
+      ],
+      [
+        {
+          "frac": 0.49993697,
+          "numerator": 11898,
+          "denominator": 23799
+        },
+        {
+          "frac": 0.487548,
+          "numerator": 12314,
+          "denominator": 25257
+        },
+        null
+      ]
+    ]
+  },
+  "firstAlternate": {
+    "rows": [
+      0,
+      2,
+      1
+    ],
+    "cols": [
+      0,
+      2,
+      1,
+      "X"
+    ],
+    "entries": [
+      [
+        null,
+        {
+          "frac": 0.28333527,
+          "numerator": 2450,
+          "denominator": 8647
+        },
+        {
+          "frac": 0.43321383,
+          "numerator": 3746,
+          "denominator": 8647
+        },
+        {
+          "frac": 0.2834509,
+          "numerator": 2451,
+          "denominator": 8647
+        }
+      ],
+      [
+        {
+          "frac": 0.3101115,
+          "numerator": 3254,
+          "denominator": 10493
+        },
+        null,
+        {
+          "frac": 0.31735444,
+          "numerator": 3330,
+          "denominator": 10493
+        },
+        {
+          "frac": 0.37253407,
+          "numerator": 3909,
+          "denominator": 10493
+        }
+      ],
+      [
+        {
+          "frac": 0.51167136,
+          "numerator": 4384,
+          "denominator": 8568
+        },
+        {
+          "frac": 0.2629552,
+          "numerator": 2253,
+          "denominator": 8568
+        },
+        null,
+        {
+          "frac": 0.22537348,
+          "numerator": 1931,
+          "denominator": 8568
+        }
+      ]
+    ]
+  },
+  "firstFinal": {
+    "rows": [
+      1
+    ],
+    "cols": [
+      0,
+      2,
+      "X"
+    ],
+    "entries": [
+      [
+        {
+          "frac": 0.51167136,
+          "numerator": 4384,
+          "denominator": 8568
+        },
+        {
+          "frac": 0.2629552,
+          "numerator": 2253,
+          "denominator": 8568
+        },
+        {
+          "frac": 0.22537348,
+          "numerator": 1931,
+          "denominator": 8568
+        }
+      ]
+    ]
+  },
+  "smithSet": [
+    0
+  ]
+}

@@ -1,0 +1,445 @@
+{
+  "name": "Alameda County",
+  "path": "us/ca/alameda",
+  "kind": "county",
+  "offices": {
+    "oakland-mayor": {
+      "name": "Mayor - Oakland"
+    },
+    "oakland-council-at-large": {
+      "name": "City Council, At-Large - Oakland"
+    },
+    "oakland-council-d1": {
+      "name": "City Council, District 1 - Oakland"
+    },
+    "oakland-council-d2": {
+      "name": "City Council, District 2 - Oakland"
+    },
+    "oakland-council-d3": {
+      "name": "City Council, District 3 - Oakland"
+    },
+    "oakland-council-d5": {
+      "name": "City Council, District 5 - Oakland"
+    },
+    "oakland-council-d7": {
+      "name": "City Council, District 7 - Oakland"
+    },
+    "oakland-city-attorney": {
+      "name": "City Attorney - Oakland"
+    },
+    "oakland-school-director-d1": {
+      "name": "School Director, District 1 - Oakland"
+    },
+    "oakland-school-director-d3": {
+      "name": "School Director, District 3 - Oakland"
+    },
+    "oakland-school-director-d5": {
+      "name": "School Director, District 5 - Oakland"
+    },
+    "oakland-school-director-d7": {
+      "name": "School Director, District 7 - Oakland"
+    },
+    "berkeley-mayor": {
+      "name": "Mayor - Berkeley"
+    },
+    "berkeley-council-d2": {
+      "name": "City Council, District 2 - Berkeley"
+    },
+    "berkeley-council-d3": {
+      "name": "City Council, District 3 - Berkeley"
+    },
+    "berkeley-council-d5": {
+      "name": "City Council, District 5 - Berkeley"
+    },
+    "berkeley-council-d6": {
+      "name": "City Council, District 6 - Berkeley"
+    },
+    "albany-council": {
+      "name": "City Council - Albany"
+    },
+    "albany-board-of-education": {
+      "name": "Board of Education - Albany"
+    },
+    "oakland-council-d4": {
+      "name": "City Council, District 4 - Oakland"
+    },
+    "oakland-council-d6": {
+      "name": "City Council, District 6 - Oakland"
+    },
+    "oakland-city-auditor": {
+      "name": "City Auditor - Oakland"
+    },
+    "oakland-school-director-d2": {
+      "name": "School Director, District 2 - Oakland"
+    },
+    "oakland-school-director-d4": {
+      "name": "School Director, District 4 - Oakland"
+    },
+    "oakland-school-director-d6": {
+      "name": "School Director, District 6 - Oakland"
+    },
+    "berkeley-council-d1": {
+      "name": "City Council, District 1 - Berkeley"
+    },
+    "berkeley-council-d4": {
+      "name": "City Council, District 4 - Berkeley"
+    },
+    "berkeley-council-d7": {
+      "name": "City Council, District 7 - Berkeley"
+    },
+    "berkeley-council-d8": {
+      "name": "City Council, District 8 - Berkeley"
+    },
+    "berkeley-city-auditor": {
+      "name": "City Auditor - Berkeley"
+    },
+    "san-leandro-mayor": {
+      "name": "Mayor - San Leandro"
+    },
+    "san-leandro-council-d1": {
+      "name": "City Council, District 1 - San Leandro"
+    },
+    "san-leandro-council-d3": {
+      "name": "City Council, District 3 - San Leandro"
+    },
+    "san-leandro-council-d5": {
+      "name": "City Council, District 5 - San Leandro"
+    }
+  },
+  "elections": {
+    "2022/11": {
+      "name": "November 8, 2022 General Election",
+      "date": "2022-11-08",
+      "dataFormat": "nist_sp_1500",
+      "tabulationOptions": null,
+      "normalization": "simple",
+      "contests": [
+        {
+          "office": "albany-council",
+          "loaderParams": {
+            "contest": "58",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "albany-board-of-education",
+          "loaderParams": {
+            "contest": "59",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-council-d1",
+          "loaderParams": {
+            "contest": "60",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-council-d4",
+          "loaderParams": {
+            "contest": "61",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-council-d7",
+          "loaderParams": {
+            "contest": "62",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-council-d8",
+          "loaderParams": {
+            "contest": "63",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-city-auditor",
+          "loaderParams": {
+            "contest": "64",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-mayor",
+          "loaderParams": {
+            "contest": "80",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-council-d2",
+          "loaderParams": {
+            "contest": "81",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-council-d4",
+          "loaderParams": {
+            "contest": "82",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-council-d6",
+          "loaderParams": {
+            "contest": "83",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-city-auditor",
+          "loaderParams": {
+            "contest": "84",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-school-director-d2",
+          "loaderParams": {
+            "contest": "85",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-school-director-d4",
+          "loaderParams": {
+            "contest": "86",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-school-director-d6",
+          "loaderParams": {
+            "contest": "87",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "san-leandro-mayor",
+          "loaderParams": {
+            "contest": "93",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "san-leandro-council-d1",
+          "loaderParams": {
+            "contest": "94",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "san-leandro-council-d3",
+          "loaderParams": {
+            "contest": "95",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "san-leandro-council-d5",
+          "loaderParams": {
+            "contest": "96",
+            "cvr": "general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        }
+      ],
+      "files": {}
+    },
+    "2025/04": {
+      "name": "Oakland Special Municipal Election",
+      "date": "2025-04-15",
+      "dataFormat": "nist_sp_1500",
+      "tabulationOptions": null,
+      "normalization": "simple",
+      "contests": [
+        {
+          "office": "oakland-mayor",
+          "loaderParams": {
+            "contest": "1",
+            "cvr": "oakland-special",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-council-d2",
+          "loaderParams": {
+            "contest": "2",
+            "cvr": "oakland-special",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        }
+      ],
+      "files": {}
+    },
+    "2024/11": {
+      "name": "November 5, 2024 General Election",
+      "date": "2024-11-05",
+      "dataFormat": "nist_sp_1500",
+      "tabulationOptions": null,
+      "normalization": "simple",
+      "contests": [
+        {
+          "office": "albany-council",
+          "loaderParams": {
+            "contest": "85",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "albany-board-of-education",
+          "loaderParams": {
+            "contest": "86",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-mayor",
+          "loaderParams": {
+            "contest": "87",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-council-d2",
+          "loaderParams": {
+            "contest": "88",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-council-d3",
+          "loaderParams": {
+            "contest": "89",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-council-d5",
+          "loaderParams": {
+            "contest": "90",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "berkeley-council-d6",
+          "loaderParams": {
+            "contest": "91",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-council-at-large",
+          "loaderParams": {
+            "contest": "93",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-council-d1",
+          "loaderParams": {
+            "contest": "94",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-council-d3",
+          "loaderParams": {
+            "contest": "95",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-council-d5",
+          "loaderParams": {
+            "contest": "96",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-council-d7",
+          "loaderParams": {
+            "contest": "97",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-city-attorney",
+          "loaderParams": {
+            "contest": "98",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-school-director-d1",
+          "loaderParams": {
+            "contest": "99",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-school-director-d3",
+          "loaderParams": {
+            "contest": "100",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-school-director-d5",
+          "loaderParams": {
+            "contest": "101",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        },
+        {
+          "office": "oakland-school-director-d7",
+          "loaderParams": {
+            "contest": "102",
+            "cvr": "nov-05-general",
+            "dropUnqualifiedWriteIn": "true"
+          }
+        }
+      ],
+      "files": {}
+    }
+  }
+}

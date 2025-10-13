@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "City Council, District 5 - San Leandro",
+    "date": "2022-11-08",
+    "dataFormat": "nist_sp_1500",
+    "tabulationOptions": {
+      "eager": true,
+      "nycStyle": false
+    },
+    "jurisdictionPath": "us/ca/alameda",
+    "electionPath": "2022/11",
+    "office": "san-leandro-council-d5",
+    "officeName": "City Council, District 5 - San Leandro",
+    "jurisdictionName": "Alameda County",
+    "electionName": "November 8, 2022 General Election",
+    "loaderParams": {
+      "contest": "96",
+      "cvr": "general",
+      "dropUnqualifiedWriteIn": "true"
+    },
+    "website": null
+  },
+  "ballotCount": 24812,
+  "candidates": [
+    {
+      "name": "Xouhoa Bowen",
+      "candidate_type": "Regular"
+    },
+    {
+      "name": "Monique Tate",
+      "candidate_type": "Regular"
+    }
+  ],
+  "rounds": [
+    {
+      "allocations": [
+        {
+          "allocatee": 0,
+          "votes": 10204
+        },
+        {
+          "allocatee": 1,
+          "votes": 10169
+        },
+        {
+          "allocatee": "X",
+          "votes": 4439
+        }
+      ],
+      "undervote": 4315,
+      "overvote": 124,
+      "continuingBallots": 20373,
+      "transfers": []
+    }
+  ],
+  "winner": 0,
+  "condorcet": 0,
+  "numCandidates": 2,
+  "totalVotes": [
+    {
+      "candidate": 0,
+      "firstRoundVotes": 10204,
+      "transferVotes": 0,
+      "roundEliminated": null
+    },
+    {
+      "candidate": 1,
+      "firstRoundVotes": 10169,
+      "transferVotes": 0,
+      "roundEliminated": null
+    }
+  ],
+  "pairwisePreferences": {
+    "rows": [
+      0,
+      1
+    ],
+    "cols": [
+      0,
+      1
+    ],
+    "entries": [
+      [
+        null,
+        {
+          "frac": 0.50085896,
+          "numerator": 10204,
+          "denominator": 20373
+        }
+      ],
+      [
+        {
+          "frac": 0.499141,
+          "numerator": 10169,
+          "denominator": 20373
+        },
+        null
+      ]
+    ]
+  },
+  "firstAlternate": {
+    "rows": [
+      0,
+      1
+    ],
+    "cols": [
+      0,
+      1,
+      "X"
+    ],
+    "entries": [
+      [
+        null,
+        {
+          "frac": 0.66738534,
+          "numerator": 6810,
+          "denominator": 10204
+        },
+        {
+          "frac": 0.33261466,
+          "numerator": 3394,
+          "denominator": 10204
+        }
+      ],
+      [
+        {
+          "frac": 0.6537516,
+          "numerator": 6648,
+          "denominator": 10169
+        },
+        null,
+        {
+          "frac": 0.3462484,
+          "numerator": 3521,
+          "denominator": 10169
+        }
+      ]
+    ]
+  },
+  "firstFinal": {
+    "rows": [],
+    "cols": [
+      0,
+      1,
+      "X"
+    ],
+    "entries": []
+  },
+  "smithSet": [
+    0
+  ]
+}
