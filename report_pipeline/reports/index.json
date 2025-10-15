@@ -35,26 +35,6 @@
       "date": "2024-11-05",
       "contests": [
         {
-          "office": "albany-council",
-          "officeName": "City Council - Albany",
-          "name": "City Council - Albany",
-          "winner": "Peggy (margaret)  Mcquaid",
-          "numCandidates": 5,
-          "numRounds": 4,
-          "condorcetWinner": "Peggy (margaret)  Mcquaid",
-          "hasNonCondorcetWinner": false
-        },
-        {
-          "office": "albany-board-of-education",
-          "officeName": "Board of Education - Albany",
-          "name": "Board of Education - Albany",
-          "winner": "Veronica Davidson",
-          "numCandidates": 4,
-          "numRounds": 3,
-          "condorcetWinner": "Veronica Davidson",
-          "hasNonCondorcetWinner": false
-        },
-        {
           "office": "berkeley-mayor",
           "officeName": "Mayor - Berkeley",
           "name": "Mayor - Berkeley",
@@ -212,26 +192,6 @@
       "electionName": "November 8, 2022 General Election",
       "date": "2022-11-08",
       "contests": [
-        {
-          "office": "albany-council",
-          "officeName": "City Council - Albany",
-          "name": "City Council - Albany",
-          "winner": "John Anthony Miki",
-          "numCandidates": 5,
-          "numRounds": 3,
-          "condorcetWinner": "John Anthony Miki",
-          "hasNonCondorcetWinner": false
-        },
-        {
-          "office": "albany-board-of-education",
-          "officeName": "Board of Education - Albany",
-          "name": "Board of Education - Albany",
-          "winner": "Ron Rosenbaum",
-          "numCandidates": 4,
-          "numRounds": 2,
-          "condorcetWinner": "Ron Rosenbaum",
-          "hasNonCondorcetWinner": false
-        },
         {
           "office": "berkeley-council-d1",
           "officeName": "City Council, District 1 - Berkeley",

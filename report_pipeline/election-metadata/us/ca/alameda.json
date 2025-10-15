@@ -54,12 +54,6 @@
     "berkeley-council-d6": {
       "name": "City Council, District 6 - Berkeley"
     },
-    "albany-council": {
-      "name": "City Council - Albany"
-    },
-    "albany-board-of-education": {
-      "name": "Board of Education - Albany"
-    },
     "oakland-council-d4": {
       "name": "City Council, District 4 - Oakland"
     },
@@ -114,22 +108,6 @@
       "tabulationOptions": null,
       "normalization": "simple",
       "contests": [
-        {
-          "office": "albany-council",
-          "loaderParams": {
-            "contest": "58",
-            "cvr": "general",
-            "dropUnqualifiedWriteIn": "true"
-          }
-        },
-        {
-          "office": "albany-board-of-education",
-          "loaderParams": {
-            "contest": "59",
-            "cvr": "general",
-            "dropUnqualifiedWriteIn": "true"
-          }
-        },
         {
           "office": "berkeley-council-d1",
           "loaderParams": {
@@ -302,22 +280,6 @@
       "tabulationOptions": null,
       "normalization": "simple",
       "contests": [
-        {
-          "office": "albany-council",
-          "loaderParams": {
-            "contest": "85",
-            "cvr": "nov-05-general",
-            "dropUnqualifiedWriteIn": "true"
-          }
-        },
-        {
-          "office": "albany-board-of-education",
-          "loaderParams": {
-            "contest": "86",
-            "cvr": "nov-05-general",
-            "dropUnqualifiedWriteIn": "true"
-          }
-        },
         {
           "office": "berkeley-mayor",
           "loaderParams": {
