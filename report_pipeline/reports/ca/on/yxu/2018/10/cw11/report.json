@@ -4,7 +4,8 @@
     "date": "2018-10-22",
     "dataFormat": "dominion_rcr",
     "tabulationOptions": {
-      "eager": true
+      "eager": true,
+      "nycStyle": false
     },
     "jurisdictionPath": "ca/on/yxu",
     "electionPath": "2018/10",
@@ -741,6 +742,54 @@
         }
       ]
     ]
+  },
+  "rankingDistribution": {
+    "overallDistribution": {
+      "3": 2752,
+      "1": 3598,
+      "2": 1516
+    },
+    "candidateDistributions": {
+      "0": {
+        "2": 105,
+        "1": 163,
+        "3": 241
+      },
+      "2": {
+        "2": 96,
+        "1": 147,
+        "3": 176
+      },
+      "3": {
+        "3": 709,
+        "1": 745,
+        "2": 349
+      },
+      "1": {
+        "1": 84,
+        "2": 44,
+        "3": 81
+      },
+      "4": {
+        "3": 1256,
+        "1": 2224,
+        "2": 775
+      },
+      "5": {
+        "1": 235,
+        "2": 147,
+        "3": 289
+      }
+    },
+    "totalBallots": 7866,
+    "candidateTotals": {
+      "4": 4255,
+      "5": 671,
+      "1": 209,
+      "0": 509,
+      "2": 419,
+      "3": 1803
+    }
   },
   "smithSet": [
     4

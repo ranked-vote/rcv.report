@@ -96,6 +96,20 @@
     ],
     "entries": []
   },
+  "rankingDistribution": {
+    "overallDistribution": {
+      "1": 3490
+    },
+    "candidateDistributions": {
+      "0": {
+        "1": 3490
+      }
+    },
+    "totalBallots": 3490,
+    "candidateTotals": {
+      "0": 3490
+    }
+  },
   "smithSet": [
     0
   ]

@@ -95,6 +95,28 @@
     return max;
   })();
 
+  // Calculate max percentage for color normalization (like CandidatePairTable)
+  $: maxPercentage = (() => {
+    let max = 0;
+    if (rankingMatrix) {
+      rankingMatrix.forEach(row => {
+        Object.values(row.distributions).forEach(dist => {
+          max = Math.max(max, dist.percentage);
+        });
+      });
+    }
+    return max || 100; // Default to 100 if no data
+  })();
+
+  // Color function matching CandidatePairTable style (light mode)
+  function percentageToColor(percentage: number): string {
+    const normalized = percentage / maxPercentage;
+    const h = 0; // Red hue
+    const s = 50 + (normalized * 45); // 50% to 95% saturation
+    const l = 97 - (normalized * 22); // 97% to 75% lightness
+    return `hsl(${h}, ${s}%, ${l}%)`;
+  }
+
   // Generate tooltip content for matrix cells
   function generateMatrixCellTooltip(row: RankingMatrixRow, numRanks: number): string {
     const data = row.distributions[numRanks];
@@ -131,7 +153,7 @@
             class="entry"
             use:tooltip={row.distributions[numRanks] ? generateMatrixCellTooltip(row, numRanks) : null}
             style={row.distributions[numRanks]
-              ? `--percentage: ${row.distributions[numRanks].percentage}`
+              ? `--percentage-normalized: ${row.distributions[numRanks].percentage / maxPercentage}; background: ${percentageToColor(row.distributions[numRanks].percentage)}`
               : ''}>
             {#if row.distributions[numRanks]}
               {row.distributions[numRanks].percentage.toFixed(1)}%
@@ -147,7 +169,7 @@
 {/if}
 
 <style>
-  /* Ranking Distribution Matrix - based on approval.vote style */
+  /* Use exact same CSS as CandidatePairTable */
   table {
     font-size: 8pt;
     margin: auto;
@@ -155,7 +177,8 @@
   }
 
   .colLabel div {
-    /* Keep column headers horizontal for ranking distribution */
+    transform: rotate(180deg);
+    writing-mode: vertical-lr;
     margin: auto;
   }
 
@@ -167,12 +190,6 @@
     text-align: right;
   }
 
-  .voter-count {
-    font-size: 7pt;
-    color: #666;
-    margin-top: 2px;
-  }
-
   .entry {
     height: 40px;
     width: 40px;
@@ -180,8 +197,6 @@
     vertical-align: middle;
     text-align: center;
     color: black;
-    /* Light mode: 0% = light background (97%), 100% = theme red (75%) */
-    background: hsl(0, calc(50% + var(--percentage, 0) * 0.45%), calc(97% - var(--percentage, 0) * 0.22%));
   }
 
   .colsLabel {
@@ -202,13 +217,11 @@
     writing-mode: vertical-lr;
   }
 
-  /* Add spacing after "All Candidates" row */
-  .overall-separator {
-    border-bottom: 4px solid white;
-  }
-
-  .overall-separator td {
-    border-bottom: 4px solid white;
+  /* Ranking Distribution specific styles */
+  .voter-count {
+    font-size: 7pt;
+    color: #666;
+    margin-top: 2px;
   }
 
   /* Keep column headers horizontal for ranking distribution */
@@ -219,38 +232,13 @@
     margin: auto;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .entry {
-      color: white;
-      /* Dark mode: 0% = dark background (15%), 100% = theme red (75%) */
-      background: hsl(0, calc(50% + var(--percentage, 0) * 0.45%), calc(15% + var(--percentage, 0) * 0.60%));
-    }
+  /* Add spacing after "All Candidates" row */
+  .overall-separator {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  }
 
-    .voter-count {
-      color: #999;
-    }
-
-    .colsLabel,
-    .rowsLabel {
-      color: #e0e0e0;
-    }
-
-    table {
-      color: #e0e0e0;
-    }
-
-    .colLabel,
-    .rowLabel {
-      color: #e0e0e0;
-    }
-
-    .overall-separator {
-      border-bottom-color: #1a1a1a;
-    }
-
-    .overall-separator td {
-      border-bottom-color: #1a1a1a;
-    }
+  .overall-separator td {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   }
 </style>
 

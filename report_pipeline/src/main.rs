@@ -41,11 +41,17 @@ enum Command {
         preprocessed_dir: PathBuf,
         /// Report output directory
         report_dir: PathBuf,
-        /// Whether to force preprocessing even if preprocessed files exist
+        /// Whether to use cached preprocessed files if they exist (default: regenerate)
         #[clap(long)]
+        use_cache_preprocess: bool,
+        /// Whether to use cached report files if they exist (default: regenerate)
+        #[clap(long)]
+        use_cache_report: bool,
+        /// Whether to force preprocessing even if preprocessed files exist (deprecated: use --use-cache-preprocess=false)
+        #[clap(long, hidden = true)]
         force_preprocess: bool,
-        /// Whether to force report generation even if report files exist
-        #[clap(long)]
+        /// Whether to force report generation even if report files exist (deprecated: use --use-cache-report=false)
+        #[clap(long, hidden = true)]
         force_report: bool,
         /// Optional jurisdiction filter (e.g., "us/ca/alameda")
         #[clap(long)]
@@ -76,17 +82,30 @@ fn main() {
             raw_data_dir,
             preprocessed_dir,
             report_dir,
+            use_cache_preprocess,
+            use_cache_report,
             force_preprocess,
             force_report,
             jurisdiction,
         } => {
+            // Support deprecated flags for backward compatibility
+            // If old flags are used, convert them to new cache flags
+            let use_cache_preprocess = if force_preprocess { false } else { use_cache_preprocess };
+            let use_cache_report = if force_report { false } else { use_cache_report };
+            
+            // By default (when flags are false), regenerate everything
+            // Only use cache if explicitly requested
+            // If regenerating reports, also regenerate preprocessing
+            let force_preprocess_final = !use_cache_preprocess || !use_cache_report;
+            let force_report_final = !use_cache_report;
+            
             report(
                 &meta_dir,
                 &raw_data_dir,
                 &report_dir,
                 &preprocessed_dir,
-                force_preprocess,
-                force_report,
+                force_preprocess_final,
+                force_report_final,
                 jurisdiction.as_deref(),
             );
         }

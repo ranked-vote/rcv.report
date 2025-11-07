@@ -4,7 +4,8 @@
     "date": "2025-06-24",
     "dataFormat": "us_ny_nyc",
     "tabulationOptions": {
-      "eager": true
+      "eager": true,
+      "nycStyle": null
     },
     "jurisdictionPath": "us/ny/nyc",
     "electionPath": "2025/07",
@@ -392,6 +393,47 @@
         }
       ]
     ]
+  },
+  "rankingDistribution": {
+    "overallDistribution": {
+      "1": 27883,
+      "3": 10486,
+      "4": 284,
+      "2": 7864
+    },
+    "candidateDistributions": {
+      "1": {
+        "2": 2546,
+        "1": 6456,
+        "4": 48,
+        "3": 3016
+      },
+      "3": {
+        "4": 26,
+        "2": 37,
+        "1": 155,
+        "3": 34
+      },
+      "0": {
+        "2": 5032,
+        "3": 6773,
+        "1": 20553,
+        "4": 195
+      },
+      "2": {
+        "1": 719,
+        "4": 15,
+        "3": 663,
+        "2": 249
+      }
+    },
+    "totalBallots": 46517,
+    "candidateTotals": {
+      "1": 12066,
+      "0": 32553,
+      "2": 1646,
+      "3": 252
+    }
   },
   "smithSet": [
     0

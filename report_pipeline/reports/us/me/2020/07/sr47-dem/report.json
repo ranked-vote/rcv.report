@@ -4,7 +4,8 @@
     "date": "2020-07-14",
     "dataFormat": "us_me",
     "tabulationOptions": {
-      "eager": true
+      "eager": true,
+      "nycStyle": false
     },
     "jurisdictionPath": "us/me",
     "electionPath": "2020/07",
@@ -267,6 +268,36 @@
         }
       ]
     ]
+  },
+  "rankingDistribution": {
+    "overallDistribution": {
+      "1": 409,
+      "2": 231,
+      "3": 1785
+    },
+    "candidateDistributions": {
+      "0": {
+        "3": 646,
+        "2": 67,
+        "1": 160
+      },
+      "1": {
+        "2": 90,
+        "3": 702,
+        "1": 178
+      },
+      "2": {
+        "1": 71,
+        "3": 437,
+        "2": 74
+      }
+    },
+    "totalBallots": 2425,
+    "candidateTotals": {
+      "1": 970,
+      "2": 582,
+      "0": 873
+    }
   },
   "smithSet": [
     1

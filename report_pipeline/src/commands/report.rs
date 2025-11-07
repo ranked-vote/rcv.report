@@ -43,7 +43,7 @@ fn process_contest(
         if report_path.exists() && preprocessed_path.exists() && !force_report && !force_preprocess
         {
             eprintln!(
-                "Skipping because {} exists.",
+                "Skipping because {} exists. Use --force-report to regenerate.",
                 report_path.to_str().unwrap().bright_cyan()
             );
             read_serialized(&report_path)

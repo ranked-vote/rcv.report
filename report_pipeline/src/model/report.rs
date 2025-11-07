@@ -94,7 +94,6 @@ pub struct ContestReport {
     pub pairwise_preferences: CandidatePairTable,
     pub first_alternate: CandidatePairTable,
     pub first_final: CandidatePairTable,
-    #[serde(default)]
     pub ranking_distribution: Option<RankingDistribution>,
     pub smith_set: Vec<CandidateId>,
 }

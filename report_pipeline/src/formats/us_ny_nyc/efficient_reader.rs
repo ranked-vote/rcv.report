@@ -237,7 +237,13 @@ pub fn read_all_nyc_data(path: &Path, candidates_file: &str, cvr_pattern: &str) 
 fn read_candidate_ids_optimized(candidates_path: &Path) -> HashMap<u32, String> {
     let mut candidates = HashMap::new();
 
-    let mut workbook = open_workbook_auto(candidates_path).unwrap();
+    let mut workbook = open_workbook_auto(candidates_path).unwrap_or_else(|e| {
+        panic!(
+            "❌ Failed to open candidates file '{}': {}\n   Please ensure the file exists and is readable.",
+            candidates_path.display(),
+            e
+        );
+    });
     let first_sheet = workbook.sheet_names().first().unwrap().clone();
     let range = workbook.worksheet_range(&first_sheet).unwrap();
 
@@ -276,7 +282,13 @@ fn process_files_with_race_discovery(
         eprintln!("  📊 [{}/{}] {}", file_idx + 1, file_paths.len(), filename);
 
         let file_start = Instant::now();
-        let mut workbook = open_workbook_auto(file_path).unwrap();
+        let mut workbook = open_workbook_auto(file_path).unwrap_or_else(|e| {
+            panic!(
+                "❌ Failed to open CVR file '{}': {}\n   Please ensure the file exists and is readable.",
+                file_path.display(),
+                e
+            );
+        });
         let first_sheet = workbook.sheet_names().first().unwrap().clone();
         let range = workbook.worksheet_range(&first_sheet).unwrap();
 
