@@ -7,7 +7,7 @@ mod report;
 mod tabulator;
 mod util;
 
-use crate::commands::{info, report, sync};
+use crate::commands::{info, rebuild_index, report, sync};
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 
@@ -42,11 +42,19 @@ enum Command {
         /// Report output directory
         report_dir: PathBuf,
         /// Whether to force preprocessing even if preprocessed files exist
+        #[clap(long)]
         force_preprocess: bool,
+        /// Whether to force report generation even if report files exist
+        #[clap(long)]
         force_report: bool,
         /// Optional jurisdiction filter (e.g., "us/ca/alameda")
         #[clap(long)]
         jurisdiction: Option<String>,
+    },
+    /// Rebuild index.json from existing reports
+    RebuildIndex {
+        /// Report output directory
+        report_dir: PathBuf,
     },
 }
 
@@ -81,6 +89,9 @@ fn main() {
                 force_report,
                 jurisdiction.as_deref(),
             );
+        }
+        Command::RebuildIndex { report_dir } => {
+            rebuild_index(&report_dir);
         }
     }
 }

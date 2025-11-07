@@ -32,7 +32,17 @@ impl<ExternalCandidateId: Eq + Hash + Clone + Debug> CandidateMap<ExternalCandid
         candidate: Candidate,
     ) -> Choice {
         if !self.id_to_index.contains_key(&external_candidate_id) {
-            self.add(external_candidate_id.clone(), candidate);
+            // Check if a candidate with the same name already exists
+            if let Some(existing_index) = self.candidates.iter().position(|c| c.name == candidate.name) {
+                // Map this external ID to the existing candidate
+                self.id_to_index.insert(
+                    external_candidate_id.clone(),
+                    CandidateId(existing_index as u32),
+                );
+            } else {
+                // New candidate, add it
+                self.add(external_candidate_id.clone(), candidate);
+            }
         }
 
         self.id_to_choice(external_candidate_id)

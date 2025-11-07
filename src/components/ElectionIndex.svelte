@@ -3,17 +3,63 @@
 
   export let elections: IElectionIndexEntry[];
 
+  // Natural sort function that handles ordinal numbers (1st, 2nd, 3rd, etc.)
+  function naturalSort(a: string, b: string): number {
+    // Extract numbers from strings like "1st", "2nd", "10th", etc.
+    const extractOrdinal = (str: string): number | null => {
+      const match = str.match(/(\d+)(st|nd|rd|th)/i);
+      return match ? parseInt(match[1], 10) : null;
+    };
+
+    // Split strings into parts (text and numbers)
+    const partsA = a.match(/(\d+|[^\d]+)/g) || [];
+    const partsB = b.match(/(\d+|[^\d]+)/g) || [];
+
+    // Compare each part
+    for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
+      const partA = partsA[i] || '';
+      const partB = partsB[i] || '';
+
+      // Check if both parts are numbers (including ordinals)
+      const numA = extractOrdinal(partA) ?? (/\d+/.test(partA) ? parseInt(partA, 10) : null);
+      const numB = extractOrdinal(partB) ?? (/\d+/.test(partB) ? parseInt(partB, 10) : null);
+
+      if (numA !== null && numB !== null) {
+        // Both are numbers, compare numerically
+        if (numA !== numB) {
+          return numA - numB;
+        }
+      } else if (numA !== null) {
+        // A is a number, B is text - numbers come first
+        return -1;
+      } else if (numB !== null) {
+        // B is a number, A is text - numbers come first
+        return 1;
+      } else {
+        // Both are text, compare alphabetically
+        const cmp = partA.localeCompare(partB);
+        if (cmp !== 0) {
+          return cmp;
+        }
+      }
+    }
+
+    return 0;
+  }
+
   $: filteredElections = (() => {
     const filtered = (elections || []).map(e => {
-      const isNYC = e.jurisdictionName === "New York City";
+      // Filter out contests with 2 or fewer candidates (show only 3+)
+      const filteredContests = e.contests.filter(c => {
+        return c.numCandidates > 2;
+      });
+      // Sort contests using natural sort to handle ordinals correctly
+      const sortedContests = [...filteredContests].sort((a, b) => 
+        naturalSort(a.officeName, b.officeName)
+      );
       return {
         ...e,
-        // Always filter out races with 1-2 candidates (not meaningful RCV races)
-        // For NYC, also filter out 3-candidate races (write-in never affects outcome)
-        contests: e.contests.filter(c => {
-          const minCandidates = isNYC ? 3 : 2;
-          return c.numCandidates > minCandidates;
-        })
+        contests: sortedContests
       };
     }).filter(e => e.contests.length > 0);
     return filtered;
@@ -27,6 +73,10 @@
         map.set(year, []);
       }
       map.get(year).push(e);
+    });
+    // Sort elections within each year by jurisdiction name alphabetically
+    map.forEach((elections, year) => {
+      elections.sort((a, b) => a.jurisdictionName.localeCompare(b.jurisdictionName));
     });
     return map;
   })();

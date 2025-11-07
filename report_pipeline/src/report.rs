@@ -3,7 +3,7 @@ use crate::model::election::{
     CandidateId, CandidateType, Election, ElectionInfo, ElectionPreprocessed, NormalizedBallot,
 };
 use crate::model::metadata::{Contest, ElectionMetadata, Jurisdiction};
-use crate::model::report::{CandidatePairEntry, CandidatePairTable, CandidateVotes, ContestReport};
+use crate::model::report::{CandidatePairEntry, CandidatePairTable, CandidateVotes, ContestReport, RankingDistribution};
 use crate::normalizers::normalize_election;
 use crate::tabulator::{tabulate, Allocatee, TabulatorRound};
 use colored::*;
@@ -240,6 +240,46 @@ pub fn generate_first_final(
     }
 }
 
+pub fn generate_ranking_distribution(
+    _candidates: &[CandidateId],
+    ballots: &[NormalizedBallot],
+) -> RankingDistribution {
+    let mut overall_distribution: HashMap<u32, u32> = HashMap::new();
+    let mut candidate_distributions: HashMap<CandidateId, HashMap<u32, u32>> = HashMap::new();
+    let mut candidate_totals: HashMap<CandidateId, u32> = HashMap::new();
+    let mut total_ballots = 0u32;
+
+    // Filter ballots to only those that ranked at least one candidate
+    for ballot in ballots {
+        let choices = ballot.choices();
+        if choices.is_empty() {
+            continue;
+        }
+
+        total_ballots += 1;
+        let rank_count = choices.len() as u32;
+
+        // Update overall distribution
+        *overall_distribution.entry(rank_count).or_insert(0) += 1;
+
+        // Update candidate-specific distributions
+        if let Some(first_choice) = choices.first() {
+            *candidate_totals.entry(*first_choice).or_insert(0) += 1;
+            let candidate_dist = candidate_distributions
+                .entry(*first_choice)
+                .or_insert_with(HashMap::new);
+            *candidate_dist.entry(rank_count).or_insert(0) += 1;
+        }
+    }
+
+    RankingDistribution {
+        overall_distribution,
+        candidate_distributions,
+        total_ballots,
+        candidate_totals,
+    }
+}
+
 pub fn graph(
     candidates: &[CandidateId],
     preference_map: &HashMap<(CandidateId, CandidateId), u32>,
@@ -311,6 +351,12 @@ pub fn generate_report(election: &ElectionPreprocessed) -> ContestReport {
                 rows: vec![],
                 cols: vec![],
             },
+            ranking_distribution: Some(RankingDistribution {
+                overall_distribution: HashMap::new(),
+                candidate_distributions: HashMap::new(),
+                total_ballots: 0,
+                candidate_totals: HashMap::new(),
+            }),
             smith_set: vec![],
             condorcet: None,
         };
@@ -372,6 +418,9 @@ pub fn generate_report(election: &ElectionPreprocessed) -> ContestReport {
     eprintln!("  - Generating first-final matrix...");
     let first_final = generate_first_final(&candidates, ballots, &final_round_candidates);
 
+    eprintln!("  - Generating ranking distribution...");
+    let ranking_distribution = generate_ranking_distribution(&candidates, ballots);
+
     eprintln!("  - Building final report structure...");
 
     ContestReport {
@@ -385,6 +434,7 @@ pub fn generate_report(election: &ElectionPreprocessed) -> ContestReport {
         pairwise_preferences,
         first_alternate,
         first_final,
+        ranking_distribution: Some(ranking_distribution),
         smith_set: smith_set.into_iter().collect(),
         condorcet,
     }

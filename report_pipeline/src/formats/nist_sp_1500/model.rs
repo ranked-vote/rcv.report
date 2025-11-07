@@ -187,6 +187,7 @@ pub struct Candidate {
 
 // ContestManifest.json
 
+#[allow(dead_code)]
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct ContestManifest {
@@ -194,6 +195,7 @@ pub struct ContestManifest {
     list: Vec<Contest>,
 }
 
+#[allow(dead_code)]
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct Contest {

@@ -8,6 +8,7 @@
   import VoteCounts from "./report_components/VoteCounts.svelte";
   import Sankey from "./report_components/Sankey.svelte";
   import CandidatePairTable from "./report_components/CandidatePairTable.svelte";
+  import RankingDistribution from "./report_components/RankingDistribution.svelte";
   import { EXHAUSTED } from "./candidates";
 
   import { onMount, setContext } from "svelte";
@@ -184,6 +185,24 @@
       colLabel="Second Choice" />
   </div>
 </div>
+
+{#if report.rankingDistribution && report.rankingDistribution.totalBallots > 0}
+<div class="row">
+  <div class="leftCol">
+    <h2>Ranking Distribution</h2>
+    <p>
+      This shows how many candidates voters ranked, both overall and broken down by each candidate's first-choice supporters. This reveals whether some candidates attracted voters who ranked multiple candidates versus those who ranked fewer candidates.
+    </p>
+  </div>
+
+  <div class="rightCol">
+    <RankingDistribution
+      candidates={report.candidates}
+      rankingDistribution={report.rankingDistribution}
+      totalVotes={report.totalVotes} />
+  </div>
+</div>
+{/if}
 {/if}
 
 {#if report.rounds.length > 1}

@@ -1,0 +1,52 @@
+Fix candidate ID matching and add automatic index.json updates
+
+This commit fixes critical issues with candidate ID matching in NYC elections
+and ensures the reports index is automatically updated when reports are generated.
+
+## Candidate ID Matching Fixes
+
+### Handle string IDs in candidates file
+- Modified `read_candidate_ids()` in `us_ny_nyc/mod.rs` to handle candidate IDs
+  stored as strings in Excel files, not just numbers. Previously, IDs stored as
+  strings (like "254130") were silently skipped, causing hundreds of thousands
+  of "Candidate ID not found" warnings.
+
+### Merge duplicate candidate names
+- Updated `add_id_to_choice()` in `candidate_map.rs` to merge candidates with
+  the same name but different external IDs into a single candidate. This fixes
+  cases where candidates like "Paperboy Love Prince" appear with multiple IDs
+  (258719 and 258824) in the candidates file, which was causing votes to be
+  incorrectly attributed to separate candidates.
+
+### Graceful error handling
+- Improved error handling in `scan_worksheets_for_race()` to log warnings and
+  skip invalid candidate IDs instead of panicking, allowing report generation
+  to complete even with malformed ballot data.
+
+## Index.json Auto-Update
+
+### New rebuild_index() function
+- Added `rebuild_index()` function in `report.rs` that scans all existing
+  report.json files and rebuilds the index.json from scratch. This ensures
+  the index stays in sync with all generated reports.
+
+### Integration with preprocess_nyc
+- Updated `preprocess_nyc.rs` to call `rebuild_index()` after generating
+  reports, ensuring the index is updated when using the optimized NYC
+  preprocessing path.
+
+## Dependency Fixes
+
+- Added `calamine = "0.24"` to Cargo.toml to fix compilation errors in
+  `efficient_reader.rs` which uses calamine for Excel file reading.
+
+- Fixed Data::String handling in `efficient_reader.rs` to properly match on
+  calamine's Data enum instead of using non-existent `as_string()` method.
+
+## Impact
+
+These fixes resolve the issue where NYC 2025/07 elections showed incorrect
+winners (e.g., Paperboy Love Prince instead of Zohran Kwame Mamdani) due to
+candidate ID mismatches. The index.json is now automatically kept up-to-date
+whenever reports are generated, eliminating the need for manual index updates.
+

@@ -41,6 +41,14 @@ export interface IContestReport {
   pairwisePreferences: ICandidatePairTable;
   firstAlternate: ICandidatePairTable;
   firstFinal: ICandidatePairTable;
+  rankingDistribution?: IRankingDistribution;
+}
+
+export interface IRankingDistribution {
+  overallDistribution: Record<string, number>;
+  candidateDistributions: Record<string, Record<string, number>>;
+  totalBallots: number;
+  candidateTotals: Record<string, number>;
 }
 
 export interface ICandidatePairTable {

@@ -1,6 +1,7 @@
 use crate::model::election::{Candidate, CandidateId, ElectionInfo};
 use crate::tabulator::{Allocatee, TabulatorRound};
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -66,6 +67,19 @@ pub struct CandidatePairTable {
     pub entries: Vec<Vec<Option<CandidatePairEntry>>>,
 }
 
+#[derive(Serialize, Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct RankingDistribution {
+    #[serde(default)]
+    pub overall_distribution: HashMap<u32, u32>,
+    #[serde(default)]
+    pub candidate_distributions: HashMap<CandidateId, HashMap<u32, u32>>,
+    #[serde(default)]
+    pub total_ballots: u32,
+    #[serde(default)]
+    pub candidate_totals: HashMap<CandidateId, u32>,
+}
+
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ContestReport {
@@ -80,6 +94,8 @@ pub struct ContestReport {
     pub pairwise_preferences: CandidatePairTable,
     pub first_alternate: CandidatePairTable,
     pub first_final: CandidatePairTable,
+    #[serde(default)]
+    pub ranking_distribution: Option<RankingDistribution>,
     pub smith_set: Vec<CandidateId>,
 }
 

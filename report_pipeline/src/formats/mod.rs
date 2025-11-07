@@ -8,13 +8,14 @@ mod us_ny_nyc;
 mod us_vt_btv;
 
 use crate::model::election::Election;
-use std::collections::{BTreeMap, HashMap};
+use std::collections::BTreeMap;
 use std::path::Path;
 
 pub type BallotReader = dyn Fn(&Path, BTreeMap<String, String>) -> Election;
 
-// Re-export the batch reader for NIST format
+// Re-export the batch readers for NIST and NYC formats
 pub use nist_sp_1500::nist_batch_reader;
+pub use us_ny_nyc::nyc_batch_reader;
 
 pub fn get_reader_for_format(format: &str) -> &'static BallotReader {
     match format {

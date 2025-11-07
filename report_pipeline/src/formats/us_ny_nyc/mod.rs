@@ -1,3 +1,5 @@
+mod efficient_reader;
+
 use crate::formats::common::CandidateMap;
 use crate::model::election::{Ballot, Candidate, CandidateType, Choice, Election};
 use lazy_static::lazy_static;
@@ -55,9 +57,15 @@ pub fn read_candidate_ids(workbook: &mut Workbook) -> HashMap<u32, String> {
     rows.next(); // Skip header row
 
     for row in rows {
-        if let ExcelValue::Number(id) = row[0].value {
+        let id = match &row[0].value {
+            ExcelValue::Number(n) => Some(*n as u32),
+            ExcelValue::String(s) => s.parse::<u32>().ok(),
+            _ => None,
+        };
+
+        if let Some(id) = id {
             if let ExcelValue::String(name) = &row[1].value {
-                candidates.insert(id as u32, name.to_string());
+                candidates.insert(id, name.to_string());
             }
         }
     }
@@ -200,12 +208,29 @@ fn scan_worksheets_for_race(
                                     Candidate::new("Write-in".to_string(), CandidateType::WriteIn),
                                 )
                             } else {
-                                let ext_id: u32 = value.parse().unwrap();
-                                let candidate_name = candidates.get(&ext_id).unwrap();
-                                file_candidate_ids.add_id_to_choice(
-                                    ext_id,
-                                    Candidate::new(candidate_name.clone(), CandidateType::Regular),
-                                )
+                                match value.parse::<u32>() {
+                                    Ok(ext_id) => {
+                                        match candidates.get(&ext_id) {
+                                            Some(candidate_name) => {
+                                                file_candidate_ids.add_id_to_choice(
+                                                    ext_id,
+                                                    Candidate::new(candidate_name.clone(), CandidateType::Regular),
+                                                )
+                                            }
+                                            None => {
+                                                // Candidate ID not found in candidates file - skip this vote
+                                                // This can happen when ballot files reference candidates from other elections
+                                                eprintln!("Warning: Candidate ID {} not found in candidates file for {} - {}, skipping vote", ext_id, office_name, jurisdiction_name);
+                                                Choice::Undervote
+                                            }
+                                        }
+                                    }
+                                    Err(_) => {
+                                        // Failed to parse as u32 - treat as undervote
+                                        eprintln!("Warning: Failed to parse candidate ID '{}', treating as undervote", value);
+                                        Choice::Undervote
+                                    }
+                                }
                             }
                         }
                         _ => Choice::Undervote, // Default to undervote for non-string values
@@ -278,4 +303,63 @@ pub fn nyc_ballot_reader(path: &Path, params: BTreeMap<String, String>) -> Elect
     );
 
     Election::new(candidate_ids.into_vec(), ballots)
+}
+
+/// Batch reader for NYC elections that parses files once and returns elections for all contests
+/// Similar to nist_batch_reader, but for NYC format
+pub fn nyc_batch_reader(
+    path: &Path,
+    contests: Vec<(String, BTreeMap<String, String>)>,
+) -> HashMap<String, Election> {
+    if contests.is_empty() {
+        return HashMap::new();
+    }
+
+    // All contests should use the same cvrPattern and candidatesFile
+    let first_params = &contests[0].1;
+    let candidates_file = first_params
+        .get("candidatesFile")
+        .expect("us_ny_nyc elections should have candidatesFile parameter.");
+    let cvr_pattern = first_params
+        .get("cvrPattern")
+        .expect("us_ny_nyc elections should have cvrPattern parameter.");
+
+    // Verify all contests share the same parameters
+    let same_params = contests.iter().all(|(_, params)| {
+        params.get("candidatesFile") == Some(candidates_file)
+            && params.get("cvrPattern") == Some(cvr_pattern)
+    });
+
+    if !same_params {
+        eprintln!(
+            "Warning: Not all contests share the same cvrPattern/candidatesFile, falling back to sequential processing"
+        );
+        return HashMap::new();
+    }
+
+    // Parse all files once using efficient_reader
+    let ballot_db = efficient_reader::read_all_nyc_data(path, candidates_file, cvr_pattern);
+
+    // Map race keys to contest office IDs
+    let mut elections_by_office: HashMap<String, Election> = HashMap::new();
+
+    for (office_id, params) in contests {
+        let office_name = params
+            .get("officeName")
+            .expect("us_ny_nyc elections should have officeName parameter.");
+        let jurisdiction_name = params
+            .get("jurisdictionName")
+            .expect("us_ny_nyc elections should have jurisdictionName parameter.");
+
+        let race_key = format!("{}|{}", office_name, jurisdiction_name);
+
+        if let Some(election) = ballot_db.to_election(&race_key) {
+            elections_by_office.insert(office_id, election);
+        } else {
+            // Return empty election if no ballots found for this race
+            elections_by_office.insert(office_id, Election::new(vec![], vec![]));
+        }
+    }
+
+    elections_by_office
 }
