@@ -49,15 +49,11 @@
 
   $: filteredElections = (() => {
     const filtered = (elections || []).map(e => {
-      // Filter out contests with 2 or fewer candidates (show only 3+)
-      // Also filter out races with 3 candidates where one is "Write-in" (effectively 2 candidates)
+      // Filter out contests with 2 or fewer real candidates (with or without write-ins)
+      // Note: numCandidates excludes write-ins, so numCandidates === 2 means 2 real candidates
       const filteredContests = e.contests.filter(c => {
+        // Hide races with 2 or fewer real candidates (this covers 0, 1, or 2 candidates, with or without write-ins)
         if (c.numCandidates <= 2) {
-          return false;
-        }
-        // Hide races with 3 candidates where one is named "Write-in"
-        // Note: hasWriteInByName may be missing in older index.json files - regenerate index to fix
-        if (c.numCandidates === 3 && c.hasWriteInByName === true) {
           return false;
         }
         return true;
