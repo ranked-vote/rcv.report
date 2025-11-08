@@ -37,8 +37,7 @@ git clone https://github.com/fsargent/rcv.report.git
 cd rcv.report
 
 # Extract election data archives to working directory
-cd report_pipeline
-./extract-from-archives.sh
+npm run report:extract
 
 # This creates raw-data/ from the compressed archives/
 # Time: ~5-10 minutes for 12 GB of data
@@ -73,12 +72,22 @@ npm install
 
 ## Scripts
 
+### Web Development
 - `npm run dev`: start Sapper dev server
 - `npm run build`: build the app (legacy enabled)
 - `npm run export`: export a static site to `__sapper__/export`
-- `npm run generate-share-images`: generate Twitter/Facebook share images (requires dev server running)
 - `./dev.sh`: run dev with `RANKED_VOTE_REPORTS="report_pipeline/reports"`
 - `./build.sh`: export with `RANKED_VOTE_REPORTS` set (for local static output)
+
+### Report Generation
+- `npm run report`: generate reports (automatically generates card images after reports are created)
+- `npm run report:sync`: sync election metadata with raw data files
+- `npm run report:extract`: extract election data from archives to raw-data directory
+
+### Card Image Generation
+- `npm run generate-images`: generate card images (starts dev server, generates images, stops server)
+- `npm run generate-share-images`: generate Twitter/Facebook share images (requires dev server running)
+- `npm run validate-cards`: validate that all reports have corresponding card images
 
 ## Build and export
 
@@ -124,9 +133,15 @@ report_pipeline/
 
 2. **Generate reports with Rust pipeline**
    ```bash
+   # From project root (recommended):
+   npm run report
+   
+   # Or from report_pipeline directory:
    cd report_pipeline
    ./report.sh  # See report_pipeline/README.md for details
    ```
+   
+   Note: `npm run report` automatically generates card images after reports are created.
 
 3. **Compress for git**
    ```bash
@@ -134,11 +149,12 @@ report_pipeline/
    # Creates archives/ from raw-data/ (~33:1 compression)
    ```
 
-4. **Commit archives (not raw-data)**
+4. **Commit archives and generated files (not raw-data)**
    ```bash
    cd ..
    git add report_pipeline/archives/us/ca/alameda/2025/06/
    git add report_pipeline/reports/us/ca/alameda/2025/06/
+   git add static/share/us/ca/alameda/2025/06/
    git commit -m "Add Alameda June 2025 election"
    git push
    ```
@@ -149,6 +165,7 @@ See [DATA-WORKFLOW.md](report_pipeline/DATA-WORKFLOW.md) for complete documentat
 
 - `src/`: Sapper app (Svelte components, routes, API endpoints)
 - `static/`: static assets copied to export
+  - `static/share/`: Generated card images for social media sharing (committed)
 - `report_pipeline/`: Rust data processing and report generation
   - `archives/`: Compressed election data (git LFS, committed)
   - `raw-data/`: Uncompressed working data (gitignored)
@@ -165,20 +182,32 @@ See [DATA-WORKFLOW.md](report_pipeline/DATA-WORKFLOW.md) for complete documentat
 
 ```bash
 # First time: Extract election data
-cd report_pipeline && ./extract-from-archives.sh
+npm run report:extract
 
 # View reports in browser
 npm install && ./dev.sh
 
+# Generate reports and card images
+npm run report
+
+# Validate card images exist
+npm run validate-cards
+
 # Add new election data
+cd report_pipeline
 cp -r /source raw-data/us/ca/alameda/2025/06/
+npm run report:sync  # Sync metadata
+npm run report       # Generate reports and images
 ./compress-to-archives.sh
-git add archives/ reports/
+git add archives/ reports/ static/share/
 
 # Update election data
 # Edit files in raw-data/
+cd report_pipeline
+npm run report:sync  # Sync metadata
+npm run report       # Regenerate reports and images
 ./compress-to-archives.sh  # Detects changes and recompresses
-git add archives/
+git add archives/ reports/ static/share/
 ```
 
 ## Troubleshooting

@@ -58,14 +58,24 @@ This will:
 2. Sync raw data with metadata:
 
 ```bash
+# From project root (recommended):
+npm run report:sync
+
+# Or from report_pipeline directory:
 ./sync.sh
 ```
 
 3. Generate reports:
 
 ```bash
+# From project root (recommended):
+npm run report
+
+# Or from report_pipeline directory:
 ./report.sh
 ```
+
+Note: When run from the project root with `npm run report`, card images are automatically generated after reports are created. The script handles starting and stopping the dev server as needed.
 
 ## Adding Election Data
 
@@ -199,8 +209,13 @@ For NYC elections, follow this specific process:
 
 7. **Process Data**:
    ```bash
+   # From project root (recommended):
+   npm run report:sync    # Verify metadata and file hashes
+   npm run report         # Generate reports and card images
+   
+   # Or from report_pipeline directory:
    ./sync.sh    # Verify metadata and file hashes
-   ./report.sh  # Generate reports
+   ./report.sh  # Generate reports and card images
    ```
 
 The NYC format uses Excel workbooks with specific naming patterns that the loader recognizes automatically based on the `cvrPattern` specified in the metadata.
