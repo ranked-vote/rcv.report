@@ -3,7 +3,6 @@ pub mod model;
 use crate::formats::common::{normalize_name, CandidateMap};
 use crate::formats::nist_sp_1500::model::{CandidateManifest, CandidateType, CvrExport, Mark};
 use crate::model::election::{self, Ballot, Candidate, Choice, Election};
-use colored::*;
 use csv::ReaderBuilder;
 use itertools::Itertools;
 use std::collections::{BTreeMap, HashMap};
@@ -354,12 +353,12 @@ fn read_from_directory(dir_path: &Path, options: &ReaderOptions) -> Election {
         let file = match File::open(&candidate_manifest_path) {
             Ok(file) => file,
             Err(e) => {
-                eprintln!(
+                crate::log_warn!(
                     "Warning: Could not open CandidateManifest.json in {}: {}",
                     dir_path.display(),
                     e
                 );
-                eprintln!("Skipping this contest due to missing manifest file.");
+                crate::log_warn!("Skipping this contest due to missing manifest file.");
                 return Election::new(vec![], vec![]);
             }
         };
@@ -394,7 +393,7 @@ fn read_from_directory(dir_path: &Path, options: &ReaderOptions) -> Election {
     cvr_files.sort();
     let file_count = cvr_files.len();
 
-    eprintln!(
+    crate::log_debug!(
         "Processing {} CVR files (each contains all contests)...",
         file_count
     );
@@ -404,7 +403,7 @@ fn read_from_directory(dir_path: &Path, options: &ReaderOptions) -> Election {
         let file = match File::open(&file_path) {
             Ok(file) => file,
             Err(e) => {
-                eprintln!("Warning: Could not open {}: {}", filename, e);
+                crate::log_warn!("Warning: Could not open {}: {}", filename, e);
                 continue;
             }
         };
@@ -434,22 +433,22 @@ fn read_from_directory(dir_path: &Path, options: &ReaderOptions) -> Election {
         match result {
             Ok(count) => {
                 if count > 0 {
-                    eprintln!(
+                    crate::log_debug!(
                         "  → {} ballots for contest {} from {}",
-                        count.to_string().cyan(),
+                        count,
                         options.contest,
-                        filename.green()
+                        filename
                     );
                 }
             }
             Err(e) => {
-                eprintln!("Warning: Error processing {}: {}", filename.yellow(), e);
-                eprintln!("Skipping this file and continuing...");
+                crate::log_warn!("Warning: Error processing {}: {}", filename, e);
+                crate::log_warn!("Skipping this file and continuing...");
             }
         }
     }
 
-    eprintln!("Read {} ballots", ballots.len().to_string().blue());
+    crate::log_debug!("Read {} ballots", ballots.len());
 
     Election::new(candidates.into_vec(), ballots)
 }
@@ -458,12 +457,12 @@ fn read_from_zip(zip_path: &Path, options: &ReaderOptions) -> Election {
     let file = match File::open(zip_path) {
         Ok(file) => file,
         Err(e) => {
-            eprintln!(
+            crate::log_warn!(
                 "Warning: Could not open CVR file {}: {}",
                 zip_path.display(),
                 e
             );
-            eprintln!("Skipping this contest due to missing data file.");
+            crate::log_warn!("Skipping this contest due to missing data file.");
             return Election::new(vec![], vec![]);
         }
     };
@@ -491,7 +490,7 @@ fn read_from_zip(zip_path: &Path, options: &ReaderOptions) -> Election {
 
     let file_count = cvr_files.len();
 
-    eprintln!(
+    crate::log_debug!(
         "Processing {} CVR files from ZIP (each contains all contests)...",
         file_count
     );
@@ -500,7 +499,7 @@ fn read_from_zip(zip_path: &Path, options: &ReaderOptions) -> Election {
         let file = match archive.by_name(&filename) {
             Ok(file) => file,
             Err(e) => {
-                eprintln!("Warning: Could not read {} from ZIP: {}", filename, e);
+                crate::log_warn!("Warning: Could not read {} from ZIP: {}", filename, e);
                 continue;
             }
         };
@@ -518,22 +517,22 @@ fn read_from_zip(zip_path: &Path, options: &ReaderOptions) -> Election {
         match result {
             Ok(count) => {
                 if count > 0 {
-                    eprintln!(
+                    crate::log_debug!(
                         "  → {} ballots for contest {} from {}",
-                        count.to_string().cyan(),
+                        count,
                         options.contest,
-                        filename.green()
+                        filename
                     );
                 }
             }
             Err(e) => {
-                eprintln!("Warning: Error processing {}: {}", filename.yellow(), e);
-                eprintln!("Skipping this file and continuing...");
+                crate::log_warn!("Warning: Error processing {}: {}", filename, e);
+                crate::log_warn!("Skipping this file and continuing...");
             }
         }
     }
 
-    eprintln!("Read {} ballots", ballots.len().to_string().blue());
+    crate::log_debug!("Read {} ballots", ballots.len());
 
     Election::new(candidates.into_vec(), ballots)
 }
@@ -555,11 +554,20 @@ pub fn nist_batch_reader(
         .expect("nist_sp_1500 elections should have cvr parameter.")
         .clone();
 
-    let cvr_path = path.join(&cvr_name);
+    let mut cvr_path = path.join(&cvr_name);
+
+    // If the path ends with .zip but the file doesn't exist, try the directory name without .zip
+    // This handles cases where ZIP files were extracted but metadata still references the ZIP
+    if cvr_path.to_string_lossy().ends_with(".zip") && !cvr_path.exists() {
+        let dir_path = cvr_path.with_extension("");
+        if dir_path.is_dir() {
+            cvr_path = dir_path;
+        }
+    }
 
     if !cvr_path.is_dir() {
-        eprintln!(
-            "Error: Batch processing only supports directory format, not ZIP. Path: {}",
+        crate::log_warn!(
+            "Warning: Batch processing only supports directory format, not ZIP. Path: {}\n   If this is a ZIP file, please extract it first using extract-from-archives.sh",
             cvr_path.display()
         );
         return HashMap::new();
@@ -571,7 +579,7 @@ pub fn nist_batch_reader(
         let file = match File::open(&candidate_manifest_path) {
             Ok(file) => file,
             Err(e) => {
-                eprintln!(
+                crate::log_error!(
                     "Error: Could not open CandidateManifest.json in {}: {}",
                     cvr_path.display(),
                     e
@@ -618,7 +626,7 @@ pub fn nist_batch_reader(
     cvr_files.sort();
     let file_count = cvr_files.len();
 
-    eprintln!("  Processing {} CVR files...", file_count);
+    crate::log_debug!("  Processing {} CVR files...", file_count);
 
     // Process each CVR file once, distributing ballots to all contests
     for (file_idx, filename) in cvr_files.iter().enumerate() {
@@ -626,7 +634,7 @@ pub fn nist_batch_reader(
         let file = match File::open(&file_path) {
             Ok(file) => file,
             Err(e) => {
-                eprintln!("Warning: Could not open {}: {}", filename, e);
+                crate::log_warn!("Warning: Could not open {}: {}", filename, e);
                 continue;
             }
         };
@@ -635,7 +643,7 @@ pub fn nist_batch_reader(
         let content = match std::io::read_to_string(file) {
             Ok(content) => content,
             Err(e) => {
-                eprintln!("Warning: Failed to read {}: {}", filename, e);
+                crate::log_warn!("Warning: Failed to read {}: {}", filename, e);
                 continue;
             }
         };
@@ -643,7 +651,7 @@ pub fn nist_batch_reader(
         let cvr: CvrExport = match serde_json::from_str(&content) {
             Ok(cvr) => cvr,
             Err(e) => {
-                eprintln!("Warning: Failed to parse {}: {}", filename, e);
+                crate::log_warn!("Warning: Failed to parse {}: {}", filename, e);
                 continue;
             }
         };
@@ -678,9 +686,9 @@ pub fn nist_batch_reader(
 
         // Show progress every 5 files
         if (file_idx + 1) % 5 == 0 || file_idx + 1 == file_count {
-            eprintln!(
+            crate::log_debug!(
                 "    Progress: {}/{} files processed",
-                (file_idx + 1).to_string().cyan(),
+                file_idx + 1,
                 file_count
             );
         }
@@ -689,15 +697,15 @@ pub fn nist_batch_reader(
     // Convert to Election objects
     let mut results = HashMap::new();
     for (contest_id, (candidates, _dropped_write_in, ballots)) in contest_data {
-        eprintln!(
+        crate::log_debug!(
             "  Contest {}: {} ballots",
-            contest_id.to_string().yellow(),
-            ballots.len().to_string().cyan()
+            contest_id,
+            ballots.len()
         );
         results.insert(contest_id, Election::new(candidates.into_vec(), ballots));
     }
 
-    eprintln!("{} Batch processing complete\n", "SUCCESS:".green().bold());
+    crate::log_debug!("{} Batch processing complete\n", "SUCCESS:");
 
     results
 }

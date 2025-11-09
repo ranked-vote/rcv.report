@@ -7,6 +7,7 @@ use std::path::Path;
 
 struct ReaderOptions {
     ballots: String,
+    archive: Option<String>,
 }
 
 impl ReaderOptions {
@@ -15,8 +16,9 @@ impl ReaderOptions {
             .get("ballots")
             .expect("BTV elections should have ballots parameter.")
             .clone();
+        let archive = params.get("archive").cloned();
 
-        ReaderOptions { ballots }
+        ReaderOptions { ballots, archive }
     }
 }
 
@@ -46,15 +48,45 @@ pub fn parse_ballot(source: &str) -> Vec<Choice> {
 pub fn btv_ballot_reader(path: &Path, params: BTreeMap<String, String>) -> Election {
     let options = ReaderOptions::from_params(params);
 
-    // Read from extracted file directly (ZIP files are extracted by extract-from-archives.sh)
-    let ballots_path = path.join(&options.ballots);
-    let file = File::open(&ballots_path).unwrap_or_else(|e| {
-        panic!(
-            "❌ Failed to open BTV ballots file '{}': {}\n   Please ensure the file exists and is readable.\n   Run extract-from-archives.sh to extract data from archives.",
-            ballots_path.display(),
-            e
-        );
-    });
+    // Try multiple path variations to handle archive extraction
+    let mut ballots_path = path.join(&options.ballots);
+    
+    // If the file doesn't exist and we have an archive parameter, try prepending the archive directory name
+    if !ballots_path.exists() {
+        if let Some(ref archive) = options.archive {
+            // Remove .zip extension if present to get the directory name
+            let archive_dir = if archive.ends_with(".zip") {
+                &archive[..archive.len() - 4]
+            } else {
+                archive
+            };
+            // Try: archive_dir/ballots_path
+            let alternative_path = path.join(archive_dir).join(&options.ballots);
+            if alternative_path.exists() {
+                ballots_path = alternative_path;
+            } else {
+                // Try: archive_dir/filename (if ballots_path has a filename component)
+                if let Some(filename) = Path::new(&options.ballots).file_name() {
+                    let alternative_path2 = path.join(archive_dir).join(filename);
+                    if alternative_path2.exists() {
+                        ballots_path = alternative_path2;
+                    }
+                }
+            }
+        }
+    }
+    
+    let file = match File::open(&ballots_path) {
+        Ok(file) => file,
+        Err(e) => {
+            crate::log_warn!(
+                "Failed to open BTV ballots file '{}': {}\n   Please ensure the file exists and is readable.\n   Run extract-from-archives.sh to extract data from archives.",
+                ballots_path.display(),
+                e
+            );
+            return Election::new(vec![], vec![]);
+        }
+    };
     let lines = BufReader::new(file).lines();
 
     let candidate_rx = Regex::new(r#".CANDIDATE C(\d+), "(.+)""#).unwrap();

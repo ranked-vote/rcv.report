@@ -36,7 +36,7 @@ pub fn parse_choice(candidate: &str, candidate_map: &mut CandidateMap<String>) -
         let candidate = if let Some(c) = CANDIDATE_RX.captures(candidate) {
             c.get(1).unwrap().as_str()
         } else {
-            eprintln!("not matched: {}", candidate);
+            crate::log_debug!("not matched: {}", candidate);
             candidate
         };
 
@@ -55,7 +55,7 @@ pub fn maine_ballot_reader(path: &Path, params: BTreeMap<String, String>) -> Ele
     let mut candidate_map: CandidateMap<String> = CandidateMap::new();
 
     for file in options.files {
-        eprintln!("Reading: {}", file);
+        crate::log_debug!("Reading: {}", file);
         let mut workbook = Workbook::open(path.join(file).to_str().unwrap()).unwrap();
         let sheets = workbook.sheets();
         let sheet = sheets.get(1).unwrap(); // Get the first sheet by position (1-based indexing)

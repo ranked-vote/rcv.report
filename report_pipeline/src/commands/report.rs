@@ -4,11 +4,11 @@ use crate::model::report::{ContestIndexEntry, ContestReport, ElectionIndexEntry,
 use crate::read_metadata::read_meta;
 use crate::report::{generate_report, preprocess_election};
 use crate::util::{read_serialized, write_serialized};
-use colored::*;
 use rayon::prelude::*;
 use std::collections::HashMap;
 use std::fs::{create_dir_all, read_dir};
 use std::path::{Path, PathBuf};
+use crate::{log_warn, log_info, log_debug, log_race};
 
 /// Check if a candidate name is a write-in (handles "Write-in", "Write in", etc.)
 fn is_write_in_by_name(name: &str) -> bool {
@@ -32,7 +32,11 @@ fn process_contest(
         .offices
         .get(&contest.office)
         .unwrap_or_else(|| panic!("Expected office {} to be in offices.", &contest.office));
-    eprintln!("Office: {}", office.name.red());
+    log_race!(
+        &jurisdiction.name,
+        &election.name,
+        &office.name
+    );
 
     let report_path = Path::new(report_dir)
         .join(&jurisdiction.path)
@@ -48,9 +52,9 @@ fn process_contest(
     let report =
         if report_path.exists() && preprocessed_path.exists() && !force_report && !force_preprocess
         {
-            eprintln!(
+            log_debug!(
                 "Skipping because {} exists. Use --force-report to regenerate.",
-                report_path.to_str().unwrap().bright_cyan()
+                report_path.to_str().unwrap()
             );
             read_serialized(&report_path)
         } else {
@@ -59,31 +63,31 @@ fn process_contest(
             let preprocessed: ElectionPreprocessed = if preprocessed_path.exists()
                 && !force_preprocess
             {
-                eprintln!(
+                log_debug!(
                     "Loading preprocessed {}.",
-                    preprocessed_path.to_str().unwrap().bright_cyan()
+                    preprocessed_path.to_str().unwrap()
                 );
                 read_serialized(&preprocessed_path)
             } else {
                 create_dir_all(preprocessed_path.parent().unwrap()).unwrap();
 
-                eprintln!(
+                log_debug!(
                     "Generating preprocessed {}.",
-                    preprocessed_path.to_str().unwrap().bright_cyan()
+                    preprocessed_path.to_str().unwrap()
                 );
                 let preprocessed =
                     preprocess_election(raw_base, election, election_path, jurisdiction, contest);
                 write_serialized(&preprocessed_path, &preprocessed);
-                eprintln!("Processed {} ballots", preprocessed.ballots.ballots.len());
+                log_debug!("Processed {} ballots", preprocessed.ballots.ballots.len());
                 preprocessed
             };
 
-            eprintln!("Generating report...");
+            log_debug!("Generating report...");
             let contest_report = generate_report(&preprocessed);
 
-            eprintln!("Writing report to disk...");
+            log_debug!("Writing report to disk...");
             write_serialized(&report_path, &contest_report);
-            eprintln!("Report written successfully.");
+            log_debug!("Report written successfully.");
 
             // Explicitly drop preprocessed data to free memory before next contest
             drop(preprocessed);
@@ -158,7 +162,11 @@ fn process_nyc_election_batch(
                 .offices
                 .get(&contest.office)
                 .unwrap_or_else(|| panic!("Expected office {} to be in offices.", &contest.office));
-            eprintln!("Office: {}", office.name.red());
+            log_race!(
+                &jurisdiction.name,
+                &election.name,
+                &office.name
+            );
 
             let report_path = Path::new(report_dir)
                 .join(&jurisdiction.path)
@@ -188,10 +196,10 @@ fn process_nyc_election_batch(
                     election_path,
                 );
                 write_serialized(&preprocessed_path, &preprocessed);
-                eprintln!("Processed {} ballots", preprocessed.ballots.ballots.len());
+                log_debug!("Processed {} ballots", preprocessed.ballots.ballots.len());
                 preprocessed
             } else {
-                eprintln!(
+                log_debug!(
                     "Reading cached preprocessed {}",
                     preprocessed_path.display()
                 );
@@ -200,11 +208,11 @@ fn process_nyc_election_batch(
 
             // Generate report
             let report = if force_report || !report_path.exists() {
-                eprintln!("Generating report...");
+                log_debug!("Generating report...");
                 let contest_report = generate_report(&preprocessed);
-                eprintln!("Writing report to disk...");
+                log_debug!("Writing report to disk...");
                 write_serialized(&report_path, &contest_report);
-                eprintln!("Report written successfully.");
+                log_debug!("Report written successfully.");
                 contest_report
             } else {
                 read_serialized(&report_path)
@@ -292,7 +300,11 @@ fn process_nist_election_batch(
                 .offices
                 .get(&contest.office)
                 .unwrap_or_else(|| panic!("Expected office {} to be in offices.", &contest.office));
-            eprintln!("Office: {}", office.name.red());
+            log_race!(
+                &jurisdiction.name,
+                &election.name,
+                &office.name
+            );
 
             let report_path = Path::new(report_dir)
                 .join(&jurisdiction.path)
@@ -322,10 +334,10 @@ fn process_nist_election_batch(
                     election_path,
                 );
                 write_serialized(&preprocessed_path, &preprocessed);
-                eprintln!("Processed {} ballots", preprocessed.ballots.ballots.len());
+                log_debug!("Processed {} ballots", preprocessed.ballots.ballots.len());
                 preprocessed
             } else {
-                eprintln!(
+                log_debug!(
                     "Reading cached preprocessed {}",
                     preprocessed_path.display()
                 );
@@ -334,11 +346,11 @@ fn process_nist_election_batch(
 
             // Generate report
             let report = if force_report || !report_path.exists() {
-                eprintln!("Generating report...");
+                log_debug!("Generating report...");
                 let contest_report = generate_report(&preprocessed);
-                eprintln!("Writing report to disk...");
+                log_debug!("Writing report to disk...");
                 write_serialized(&report_path, &contest_report);
-                eprintln!("Report written successfully.");
+                log_debug!("Report written successfully.");
                 contest_report
             } else {
                 read_serialized(&report_path)
@@ -387,13 +399,14 @@ fn process_election(
     force_preprocess: bool,
     force_report: bool,
 ) -> ElectionIndexEntry {
-    eprintln!("Election: {}", election_path.red());
+    log_debug!("Election: {}", election_path);
 
     // Check if this is a NIST election with multiple contests that share CVR files
     let is_nist_batch = election.data_format == "nist_sp_1500" && election.contests.len() > 1;
 
-    // Check if this is a NYC election with multiple contests that share ballot files
-    let is_nyc_batch = election.data_format == "us_ny_nyc" && election.contests.len() > 1;
+    // Check if this is a NYC election (batch reader works for single or multiple contests)
+    // The batch reader uses the efficient reader which handles numeric candidate IDs correctly
+    let is_nyc_batch = election.data_format == "us_ny_nyc" && !election.contests.is_empty();
 
     let contest_index_entries: Vec<ContestIndexEntry> = if is_nyc_batch {
         // Check if all contests use the same cvrPattern and candidatesFile
@@ -407,7 +420,6 @@ fn process_election(
             });
 
         if same_params && first_params.is_some() {
-          
             process_nyc_election_batch(
                 election_path,
                 election,
@@ -419,24 +431,21 @@ fn process_election(
                 force_report,
             )
         } else {
-            // Fall back to sequential processing
-            election
-                .contests
-                .iter()
-                .map(|contest| {
-                    process_contest(
-                        contest,
-                        election,
-                        election_path,
-                        jurisdiction,
-                        raw_base,
-                        report_dir,
-                        preprocessed_dir,
-                        force_preprocess,
-                        force_report,
-                    )
-                })
-                .collect()
+            // Fall back to batch reader even if params differ (shouldn't happen for NYC)
+            // This ensures we always use the efficient reader, not the buggy old reader
+            crate::log_warn!(
+                "NYC contests don't share same params, but using batch reader anyway"
+            );
+            process_nyc_election_batch(
+                election_path,
+                election,
+                jurisdiction,
+                raw_base,
+                report_dir,
+                preprocessed_dir,
+                force_preprocess,
+                force_report,
+            )
         }
     } else if is_nist_batch {
         // Check if all contests use the same CVR path
@@ -462,11 +471,44 @@ fn process_election(
                 force_report,
             )
         } else {
-            // Fall back to sequential processing
+            // Fall back to sequential processing with error handling
             election
                 .contests
                 .iter()
-                .map(|contest| {
+                .filter_map(|contest| {
+                    match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                        process_contest(
+                            contest,
+                            election,
+                            election_path,
+                            jurisdiction,
+                            raw_base,
+                            report_dir,
+                            preprocessed_dir,
+                            force_preprocess,
+                            force_report,
+                        )
+                    })) {
+                        Ok(result) => Some(result),
+                        Err(_) => {
+                            log_warn!(
+                                "Failed to process contest {} in election {}",
+                                contest.office,
+                                election_path
+                            );
+                            None
+                        }
+                    }
+                })
+                .collect()
+        }
+    } else {
+        // Process contests sequentially for non-NIST or single contest elections with error handling
+        election
+            .contests
+            .iter()
+            .filter_map(|contest| {
+                match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
                     process_contest(
                         contest,
                         election,
@@ -478,26 +520,17 @@ fn process_election(
                         force_preprocess,
                         force_report,
                     )
-                })
-                .collect()
-        }
-    } else {
-        // Process contests sequentially for non-NIST or single contest elections
-        election
-            .contests
-            .iter()
-            .map(|contest| {
-                process_contest(
-                    contest,
-                    election,
-                    election_path,
-                    jurisdiction,
-                    raw_base,
-                    report_dir,
-                    preprocessed_dir,
-                    force_preprocess,
-                    force_report,
-                )
+                })) {
+                    Ok(result) => Some(result),
+                    Err(_) => {
+                        log_warn!(
+                            "Failed to process contest {} in election {}",
+                            contest.office,
+                            election_path
+                        );
+                        None
+                    }
+                }
             })
             .collect()
     };
@@ -530,17 +563,29 @@ fn process_jurisdiction(
     let election_results: Vec<ElectionIndexEntry> = jurisdiction
         .elections
         .iter()
-        .map(|(election_path, election)| {
-            process_election(
-                election_path,
-                election,
-                jurisdiction,
-                &raw_base,
-                report_dir,
-                preprocessed_dir,
-                force_preprocess,
-                force_report,
-            )
+        .filter_map(|(election_path, election)| {
+            match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                process_election(
+                    election_path,
+                    election,
+                    jurisdiction,
+                    &raw_base,
+                    report_dir,
+                    preprocessed_dir,
+                    force_preprocess,
+                    force_report,
+                )
+            })) {
+                Ok(result) => Some(result),
+                Err(_) => {
+                    log_warn!(
+                        "Failed to process election {} in jurisdiction {}",
+                        election_path,
+                        jurisdiction.name
+                    );
+                    None
+                }
+            }
         })
         .collect();
 
@@ -563,7 +608,7 @@ pub fn report(
 
     // Filter jurisdictions if a filter is provided
     let filtered_jurisdictions: Vec<_> = if let Some(filter) = jurisdiction_filter {
-        eprintln!("Filtering to jurisdiction: {}", filter.bright_yellow());
+        log_info!("Filtering to jurisdiction: {}", filter);
         jurisdictions
             .into_iter()
             .filter(|(_, jurisdiction)| jurisdiction.path == filter)
@@ -574,47 +619,96 @@ pub fn report(
 
     if filtered_jurisdictions.is_empty() {
         if let Some(filter) = jurisdiction_filter {
-            eprintln!(
-                "Warning: No jurisdictions found matching filter '{}'",
-                filter.red()
+            log_warn!(
+                "No jurisdictions found matching filter '{}'",
+                filter
             );
         } else {
-            eprintln!("Warning: No jurisdictions found");
+            log_warn!("No jurisdictions found");
         }
         return;
     }
 
+    // Track success/failure counts
+    let mut total_contests = 0;
+    let mut successful_contests = 0;
+    let mut failed_contests = 0;
+
     // Process jurisdictions in parallel
-    let jurisdiction_results: Vec<Vec<ElectionIndexEntry>> = filtered_jurisdictions
+    let jurisdiction_results: Vec<(Vec<ElectionIndexEntry>, usize, usize)> = filtered_jurisdictions
         .par_iter()
         .map(|(_, jurisdiction)| {
-            process_jurisdiction(
-                jurisdiction,
-                &raw_path,
-                report_dir,
-                preprocessed_dir,
-                force_preprocess,
-                force_report,
-            )
+            // Count total contests in this jurisdiction
+            let contests_in_jurisdiction: usize = jurisdiction
+                .elections
+                .values()
+                .map(|e| e.contests.len())
+                .sum();
+            
+            // Process with error handling
+            match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                process_jurisdiction(
+                    jurisdiction,
+                    &raw_path,
+                    report_dir,
+                    preprocessed_dir,
+                    force_preprocess,
+                    force_report,
+                )
+            })) {
+                Ok(result) => {
+                    // Count successful contests
+                    let successful = result.iter().map(|e| e.contests.len()).sum::<usize>();
+                    (result, successful, contests_in_jurisdiction - successful)
+                }
+                Err(_) => {
+                    log_warn!("Jurisdiction {} panicked during processing", jurisdiction.name);
+                    (Vec::new(), 0, contests_in_jurisdiction)
+                }
+            }
         })
         .collect();
 
-    // Flatten results from all jurisdictions
-    let mut election_index_entries: Vec<ElectionIndexEntry> =
-        jurisdiction_results.into_iter().flatten().collect();
+    // Extract results and counts
+    let mut election_index_entries: Vec<ElectionIndexEntry> = Vec::new();
+    for (results, successful, failed) in jurisdiction_results {
+        total_contests += successful + failed;
+        successful_contests += successful;
+        failed_contests += failed;
+        election_index_entries.extend(results);
+    }
 
     election_index_entries.sort_by(|a, b| (&b.date, &b.path).cmp(&(&a.date, &a.path)));
     let report_index = ReportIndex {
         elections: election_index_entries,
     };
 
-    write_serialized(&Path::new(report_dir).join("index.json"), &report_index);
+    // Always write index.json, even if there were errors
+    let index_path = Path::new(report_dir).join("index.json");
+    match std::fs::create_dir_all(report_dir) {
+        Ok(_) => {
+            write_serialized(&index_path, &report_index);
+            log_info!("Index written: {} elections", report_index.elections.len());
+        }
+        Err(e) => {
+            log_warn!("Failed to create report directory: {}", e);
+        }
+    }
+
+    // Print summary
+    log_info!("=== Report Generation Summary ===");
+    log_info!("Total contests: {}", total_contests);
+    log_info!("Successful: {}", successful_contests);
+    if failed_contests > 0 {
+        log_warn!("Failed: {}", failed_contests);
+    }
+    log_info!("Index entries: {}", report_index.elections.len());
 }
 
 /// Rebuild the index.json by scanning all existing report.json files
 pub fn rebuild_index(report_dir: &Path) {
-    eprintln!("{} Rebuilding index.json from existing reports...", "📋".green());
-    eprintln!("Scanning directory: {}", report_dir.display());
+    log_info!("Rebuilding index.json from existing reports...");
+    log_debug!("Scanning directory: {}", report_dir.display());
     
     let mut election_map: HashMap<String, ElectionIndexEntry> = HashMap::new();
     let mut reports_found = 0;
@@ -715,6 +809,6 @@ pub fn rebuild_index(report_dir: &Path) {
     
     let index_path = report_dir.join("index.json");
     write_serialized(&index_path, &report_index);
-    eprintln!("Found {} report.json files, processed {} successfully", reports_found, reports_processed);
-    eprintln!("{} Index updated: {} elections", "✅".green(), report_index.elections.len());
+    log_info!("Found {} report.json files, processed {} successfully", reports_found, reports_processed);
+    log_info!("Index updated: {} elections", report_index.elections.len());
 }

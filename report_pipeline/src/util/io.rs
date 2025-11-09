@@ -1,4 +1,3 @@
-use colored::*;
 use flate2::{read::GzDecoder, write::GzEncoder, Compression};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
@@ -14,7 +13,7 @@ use std::path::Path;
 pub fn read_serialized<T: DeserializeOwned>(path: &Path) -> T {
     // Only log for non-preprocessed files to reduce noise
     if !path.to_string_lossy().contains("normalized.json.gz") {
-        eprintln!("Reading {}", path.to_str().unwrap().bright_blue());
+        crate::log_debug!("Reading {}", path.to_str().unwrap());
     }
     let file = File::open(path).unwrap();
 
@@ -39,7 +38,7 @@ pub fn read_serialized<T: DeserializeOwned>(path: &Path) -> T {
 pub fn write_serialized<T: Serialize>(path: &Path, value: &T) {
     // Only log for non-preprocessed files to reduce noise
     if !path.to_string_lossy().contains("normalized.json.gz") {
-        eprintln!("Writing {}", path.to_str().unwrap().bright_blue());
+        crate::log_debug!("Writing {}", path.to_str().unwrap());
     }
 
     let file = OpenOptions::new()

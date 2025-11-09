@@ -275,7 +275,7 @@ pub fn tabulate(
         let allocations = state.allocations(tabulation_options, round_number);
         rounds.push(state.as_round(tabulation_options, round_number));
 
-        eprintln!(
+        crate::log_debug!(
             "    Round {}: {} candidates remaining",
             round_number + 1,
             allocations.votes.len()
@@ -286,8 +286,8 @@ pub fn tabulate(
         }
 
         if round_number >= max_rounds {
-            eprintln!(
-                "WARNING: Hit maximum round limit of {} - stopping tabulation",
+            crate::log_error!(
+                "Hit maximum round limit of {} - stopping tabulation",
                 max_rounds
             );
             break;

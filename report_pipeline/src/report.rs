@@ -6,7 +6,6 @@ use crate::model::metadata::{Contest, ElectionMetadata, Jurisdiction};
 use crate::model::report::{CandidatePairEntry, CandidatePairTable, CandidateVotes, ContestReport, RankingDistribution};
 use crate::normalizers::normalize_election;
 use crate::tabulator::{tabulate, Allocatee, TabulatorRound};
-use colored::*;
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::path::Path;
 
@@ -365,7 +364,7 @@ pub fn generate_report(election: &ElectionPreprocessed) -> ContestReport {
         };
     }
 
-    eprintln!("  - Tabulating rounds...");
+    crate::log_debug!("  - Tabulating rounds...");
     let rounds = tabulate(ballots, &election.info.tabulation_options);
     let winner = winner(&rounds);
     let num_candidates = election
@@ -375,23 +374,23 @@ pub fn generate_report(election: &ElectionPreprocessed) -> ContestReport {
         .filter(|d| d.candidate_type != CandidateType::WriteIn)
         .count() as u32;
 
-    eprintln!("  - Calculating total votes...");
+    crate::log_debug!("  - Calculating total votes...");
     let total_votes = total_votes(&rounds);
     let mut candidates: Vec<CandidateId> = total_votes.iter().map(|d| d.candidate).collect();
     candidates.sort(); // Ensure consistent ordering
-    eprintln!("  - Found {} candidates", candidates.len());
+    crate::log_debug!("  - Found {} candidates", candidates.len());
 
-    eprintln!("  - Generating pairwise counts...");
+    crate::log_debug!("  - Generating pairwise counts...");
     let pairwise_counts: HashMap<(CandidateId, CandidateId), u32> =
         generate_pairwise_counts(&candidates, ballots);
 
-    eprintln!("  - Generating pairwise preferences...");
+    crate::log_debug!("  - Generating pairwise preferences...");
     let pairwise_preferences = generate_pairwise_preferences(&candidates, &pairwise_counts);
 
-    eprintln!("  - Building preference graph...");
+    crate::log_debug!("  - Building preference graph...");
     let graph = graph(&candidates, &pairwise_counts);
 
-    eprintln!("  - Finding Smith set...");
+    crate::log_debug!("  - Finding Smith set...");
     let smith_set = smith_set(&candidates, &graph);
 
     let condorcet = if smith_set.len() == 1 {
@@ -401,13 +400,13 @@ pub fn generate_report(election: &ElectionPreprocessed) -> ContestReport {
     };
 
     if winner.is_some() && winner != condorcet {
-        eprintln!("{}", "Non-condorcet!".purple());
+        crate::log_debug!("Non-condorcet!");
     }
 
-    eprintln!("  - Generating first alternate matrix...");
+    crate::log_debug!("  - Generating first alternate matrix...");
     let first_alternate = generate_first_alternate(&candidates, ballots);
 
-    eprintln!("  - Determining final round candidates...");
+    crate::log_debug!("  - Determining final round candidates...");
     let final_round_candidates: HashSet<CandidateId> = rounds
         .last()
         .map(|round| {
@@ -419,13 +418,13 @@ pub fn generate_report(election: &ElectionPreprocessed) -> ContestReport {
         })
         .unwrap_or_default();
 
-    eprintln!("  - Generating first-final matrix...");
+    crate::log_debug!("  - Generating first-final matrix...");
     let first_final = generate_first_final(&candidates, ballots, &final_round_candidates);
 
-    eprintln!("  - Generating ranking distribution...");
+    crate::log_debug!("  - Generating ranking distribution...");
     let ranking_distribution = generate_ranking_distribution(&candidates, ballots);
 
-    eprintln!("  - Building final report structure...");
+    crate::log_debug!("  - Building final report structure...");
 
     // Sort vectors for consistent JSON output
     let mut sorted_smith_set: Vec<CandidateId> = smith_set.into_iter().collect();

@@ -40,6 +40,9 @@ jobs:
           # Validate that all reports have corresponding card images
           echo "Validating report card images..."
           npm run validate-cards
+          # Run tests (includes election winner validation)
+          echo "Running tests..."
+          npm test
           # Build and export the site
           npm run build
           npm run export

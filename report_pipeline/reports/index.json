@@ -1070,10 +1070,10 @@
           "office": "mayor-primary-dem",
           "officeName": "Mayor Nominee (Dem)",
           "name": "Mayor Nominee (Dem)",
-          "winner": "Scott M. Stringer",
+          "winner": "Eric L. Adams",
           "numCandidates": 13,
-          "numRounds": 10,
-          "condorcetWinner": "Scott M. Stringer",
+          "numRounds": 8,
+          "condorcetWinner": "Eric L. Adams",
           "hasNonCondorcetWinner": false,
           "hasWriteInByName": true
         }

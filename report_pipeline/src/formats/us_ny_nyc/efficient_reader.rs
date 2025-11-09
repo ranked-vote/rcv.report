@@ -145,7 +145,7 @@ pub fn read_all_nyc_data(path: &Path, candidates_file: &str, cvr_pattern: &str) 
 
     // Step 1: Load candidate mapping with optimized reading
     let step1_start = Instant::now();
-    eprintln!("📋 Loading candidate mapping...");
+    crate::log_debug!("📋 Loading candidate mapping...");
     let candidates_path = path.join(candidates_file);
     db.candidates = read_candidate_ids_optimized(&candidates_path);
 
@@ -157,7 +157,7 @@ pub fn read_all_nyc_data(path: &Path, candidates_file: &str, cvr_pattern: &str) 
     }
 
     let step1_duration = step1_start.elapsed();
-    eprintln!(
+    crate::log_debug!(
         "✅ Loaded {} candidates ({:.2}s)",
         db.candidates.len(),
         step1_duration.as_secs_f64()
@@ -165,7 +165,7 @@ pub fn read_all_nyc_data(path: &Path, candidates_file: &str, cvr_pattern: &str) 
 
     // Step 2: Skip expensive metadata building - we'll discover races during processing
     let step2_start = Instant::now();
-    eprintln!("🔍 Scanning files for processing...");
+    crate::log_debug!("🔍 Scanning files for processing...");
 
     // Just get the list of files to process
     let mut file_paths = Vec::new();
@@ -178,7 +178,7 @@ pub fn read_all_nyc_data(path: &Path, candidates_file: &str, cvr_pattern: &str) 
     }
 
     let step2_duration = step2_start.elapsed();
-    eprintln!(
+    crate::log_debug!(
         "✅ Found {} files to process ({:.2}s)",
         file_paths.len(),
         step2_duration.as_secs_f64()
@@ -188,7 +188,7 @@ pub fn read_all_nyc_data(path: &Path, candidates_file: &str, cvr_pattern: &str) 
 
     // Step 4: Process all files with on-the-fly race discovery
     let step4_start = Instant::now();
-    eprintln!("🗳️  Processing ballot data with optimized pipeline...");
+    crate::log_debug!("🗳️  Processing ballot data with optimized pipeline...");
 
     let mut race_candidate_maps: HashMap<String, CandidateMap<u32>> = HashMap::new();
     let mut ballots_by_race: HashMap<String, Vec<usize>> = HashMap::new();
@@ -209,7 +209,7 @@ pub fn read_all_nyc_data(path: &Path, candidates_file: &str, cvr_pattern: &str) 
     db.ballots_by_race = ballots_by_race;
     let step4_duration = step4_start.elapsed();
 
-    eprintln!(
+    crate::log_debug!(
         "✅ Processed {} ballot-race combinations ({:.2}s)",
         db.ballots.len(),
         step4_duration.as_secs_f64()
@@ -224,11 +224,11 @@ pub fn read_all_nyc_data(path: &Path, candidates_file: &str, cvr_pattern: &str) 
     let step6_duration = step6_start.elapsed();
 
     let total_duration = total_start.elapsed();
-    eprintln!("🎉 Complete! Total: {:.2}s", total_duration.as_secs_f64());
-    eprintln!("   📋 Candidates: {:.2}s", step1_duration.as_secs_f64());
-    eprintln!("   🔍 File scan: {:.2}s", step2_duration.as_secs_f64());
-    eprintln!("   🗳️  Processing: {:.2}s", step4_duration.as_secs_f64());
-    eprintln!("   📊 Finalization: {:.2}s", step6_duration.as_secs_f64());
+    crate::log_debug!("🎉 Complete! Total: {:.2}s", total_duration.as_secs_f64());
+    crate::log_debug!("   📋 Candidates: {:.2}s", step1_duration.as_secs_f64());
+    crate::log_debug!("   🔍 File scan: {:.2}s", step2_duration.as_secs_f64());
+    crate::log_debug!("   🗳️  Processing: {:.2}s", step4_duration.as_secs_f64());
+    crate::log_debug!("   📊 Finalization: {:.2}s", step6_duration.as_secs_f64());
 
     db
 }
@@ -279,7 +279,7 @@ fn process_files_with_race_discovery(
     ballots_by_race: &mut HashMap<String, Vec<usize>>,
 ) {
     for (file_idx, (file_path, filename)) in file_paths.iter().enumerate() {
-        eprintln!("  📊 [{}/{}] {}", file_idx + 1, file_paths.len(), filename);
+        crate::log_debug!("  📊 [{}/{}] {}", file_idx + 1, file_paths.len(), filename);
 
         let file_start = Instant::now();
         let mut workbook = open_workbook_auto(file_path).unwrap_or_else(|e| {
@@ -331,7 +331,7 @@ fn process_files_with_race_discovery(
         }
 
         let Some(cvr_col) = cvr_id_col else {
-            eprintln!("    ⚠️  No CVR ID column found, skipping file");
+            crate::log_warn!("    ⚠️  No CVR ID column found, skipping file");
             continue;
         };
 
@@ -456,17 +456,15 @@ fn process_files_with_race_discovery(
 
                     processed_count += 1;
                     if processed_count % 25000 == 0 {
-                        eprint!("\r    ⏳ {} rows...", processed_count);
-                        use std::io::{self, Write};
-                        io::stdout().flush().unwrap();
+                        crate::log_trace!("\r    ⏳ {} rows...", processed_count);
                     }
                 }
             }
         }
 
         let file_duration = file_start.elapsed();
-        eprintln!(
-            "\r    ✅ {} rows ({:.2}s)",
+        crate::log_debug!(
+            "    ✅ {} rows ({:.2}s)",
             processed_count,
             file_duration.as_secs_f64()
         );

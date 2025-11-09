@@ -17,10 +17,15 @@
   const labelSpace = 130;
   const width = 600;
 
-  const maxVotes = Math.max(...candidateVotes.map((d) => d.firstRoundVotes + d.transferVotes));
-  const scale = (width - labelSpace - 15) / maxVotes;
+  // Sort by total votes (firstRoundVotes + transferVotes) in descending order
+  $: sortedCandidateVotes = [...candidateVotes].sort((a, b) => 
+    (b.firstRoundVotes + b.transferVotes) - (a.firstRoundVotes + a.transferVotes)
+  );
 
-  const height = outerHeight * candidateVotes.length;
+  $: maxVotes = Math.max(...sortedCandidateVotes.map((d) => d.firstRoundVotes + d.transferVotes));
+  $: scale = (width - labelSpace - 15) / maxVotes;
+
+  $: height = outerHeight * sortedCandidateVotes.length;
 </script>
 
 <style>
@@ -39,7 +44,7 @@
 
 <svg width="100%" viewBox={`0 0 ${width} ${height}`}>
   <g transform={`translate(${labelSpace} 0)`}>
-    {#each candidateVotes as votes, i}
+    {#each sortedCandidateVotes as votes, i}
       <g
         class={votes.roundEliminated === null ? '' : 'eliminated'}
         transform={`translate(0 ${outerHeight * (i + 0.5)})`}>

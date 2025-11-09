@@ -111,8 +111,11 @@
       "name": "Democratic Caucus",
       "date": "2021-06-22",
       "dataFormat": "us_ny_nyc",
-      "tabulationOptions": null,
-      "normalization": "simple",
+      "tabulationOptions": {
+        "eager": true,
+        "nycStyle": true
+      },
+      "normalization": "nyc",
       "contests": [
         {
           "office": "mayor-primary-dem",
