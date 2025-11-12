@@ -4,6 +4,7 @@ mod nist_sp_1500;
 mod simple_json;
 mod us_ca_sfo;
 mod us_me;
+mod us_mn_mpls;
 mod us_ny_nyc;
 mod us_vt_btv;
 
@@ -24,6 +25,7 @@ pub fn get_reader_for_format(format: &str) -> &'static BallotReader {
         "us_vt_btv" => &us_vt_btv::btv_ballot_reader,
         "dominion_rcr" => &dominion_rcr::dominion_rcr_ballot_reader,
         "us_me" => &us_me::maine_ballot_reader,
+        "us_mn_mpls" => &us_mn_mpls::mpls_ballot_reader,
         "simple_json" => &simple_json::json_reader,
         // NYC format uses batch reader exclusively - see process_election() in commands/report.rs
         "us_ny_nyc" => panic!("NYC format must use batch reader (nyc_batch_reader), not single-contest reader"),

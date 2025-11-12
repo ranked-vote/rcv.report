@@ -10,10 +10,13 @@ use std::fs::{create_dir_all, read_dir};
 use std::path::{Path, PathBuf};
 use crate::{log_warn, log_info, log_debug, log_race};
 
-/// Check if a candidate name is a write-in (handles "Write-in", "Write in", etc.)
+/// Check if a candidate name is a write-in (handles "Write-in", "Write in", "Undeclared Write-ins", "UWI", etc.)
 fn is_write_in_by_name(name: &str) -> bool {
     let normalized = name.to_lowercase();
-    normalized == "write-in" || normalized == "write in"
+    normalized == "write-in"
+        || normalized == "write in"
+        || normalized == "undeclared write-ins"
+        || normalized == "uwi"
 }
 
 /// Process a single contest and return the ContestIndexEntry
@@ -459,7 +462,7 @@ fn process_election(
             .all(|c| c.loader_params.as_ref().and_then(|p| p.get("cvr")) == first_cvr);
 
         if same_cvr && first_cvr.is_some() {
-           
+
             process_nist_election_batch(
                 election_path,
                 election,
@@ -644,7 +647,7 @@ pub fn report(
                 .values()
                 .map(|e| e.contests.len())
                 .sum();
-            
+
             // Process with error handling
             match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
                 process_jurisdiction(
@@ -709,11 +712,11 @@ pub fn report(
 pub fn rebuild_index(report_dir: &Path) {
     log_info!("Rebuilding index.json from existing reports...");
     log_debug!("Scanning directory: {}", report_dir.display());
-    
+
     let mut election_map: HashMap<String, ElectionIndexEntry> = HashMap::new();
     let mut reports_found = 0;
     let mut reports_processed = 0;
-    
+
     // Recursively find all report.json files
     fn find_report_files(dir: &Path, reports: &mut Vec<PathBuf>) {
         if let Ok(entries) = read_dir(dir) {
@@ -727,33 +730,33 @@ pub fn rebuild_index(report_dir: &Path) {
             }
         }
     }
-    
+
     let mut report_files = Vec::new();
     find_report_files(report_dir, &mut report_files);
-    
+
     for report_path in report_files {
         reports_found += 1;
-        
+
         // Extract the path relative to report_dir for the election path
         let relative_path = report_path.strip_prefix(report_dir).ok();
         let election_path = relative_path
             .and_then(|p| p.parent().and_then(|p| p.parent()))
             .and_then(|p| p.to_str())
             .map(|s| s.to_string());
-        
+
         // Read the report (skip if it fails to parse)
         let report = std::panic::catch_unwind(|| {
             read_serialized::<ContestReport>(&report_path)
         });
-        
+
         if let Ok(report) = report {
             reports_processed += 1;
-            
+
             // Use the election path from the report if available, otherwise construct from file path
             let full_election_path = election_path.unwrap_or_else(|| {
                 format!("{}/{}", report.info.jurisdiction_path, report.info.election_path)
             });
-            
+
             // Check if any candidate is named "Write-in" or "Write in" (case-insensitive)
             let has_write_in_by_name = report.candidates.iter().any(|c| {
                 is_write_in_by_name(&c.name)
@@ -778,7 +781,7 @@ pub fn rebuild_index(report_dir: &Path) {
                     && report.condorcet != report.winner,
                 has_write_in_by_name,
             };
-            
+
             // Get or create election entry
             let election_entry = election_map.entry(full_election_path.clone()).or_insert_with(|| {
                 ElectionIndexEntry {
@@ -789,24 +792,24 @@ pub fn rebuild_index(report_dir: &Path) {
                     contests: Vec::new(),
                 }
             });
-            
+
             election_entry.contests.push(contest_entry);
         }
     }
-    
+
     // Convert to sorted vector
     let mut election_index_entries: Vec<ElectionIndexEntry> = election_map.into_values().collect();
     election_index_entries.sort_by(|a, b| (&b.date, &b.path).cmp(&(&a.date, &a.path)));
-    
+
     // Sort contests within each election
     for election in &mut election_index_entries {
         election.contests.sort_by(|a, b| a.office_name.cmp(&b.office_name));
     }
-    
+
     let report_index = ReportIndex {
         elections: election_index_entries,
     };
-    
+
     let index_path = report_dir.join("index.json");
     write_serialized(&index_path, &report_index);
     log_info!("Found {} report.json files, processed {} successfully", reports_found, reports_processed);

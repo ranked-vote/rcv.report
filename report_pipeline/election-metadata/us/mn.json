@@ -1,0 +1,264 @@
+{
+  "name": "Minneapolis",
+  "path": "us/mn",
+  "kind": "city",
+  "offices": {
+    "mayor": {
+      "name": "Mayor"
+    },
+    "ward-1": {
+      "name": "City Council Ward 1"
+    },
+    "ward-2": {
+      "name": "City Council Ward 2"
+    },
+    "ward-3": {
+      "name": "City Council Ward 3"
+    },
+    "ward-4": {
+      "name": "City Council Ward 4"
+    },
+    "ward-5": {
+      "name": "City Council Ward 5"
+    },
+    "ward-6": {
+      "name": "City Council Ward 6"
+    },
+    "ward-7": {
+      "name": "City Council Ward 7"
+    },
+    "ward-8": {
+      "name": "City Council Ward 8"
+    },
+    "ward-9": {
+      "name": "City Council Ward 9"
+    },
+    "ward-10": {
+      "name": "City Council Ward 10"
+    },
+    "ward-11": {
+      "name": "City Council Ward 11"
+    },
+    "ward-12": {
+      "name": "City Council Ward 12"
+    },
+    "ward-13": {
+      "name": "City Council Ward 13"
+    }
+  },
+  "elections": {
+    "2025/05": {
+      "name": "Municipal Election",
+      "date": "2025-05-13",
+      "dataFormat": "us_mn_mpls",
+      "tabulationOptions": null,
+      "normalization": "simple",
+      "contests": [
+        {
+          "office": "mayor",
+          "loaderParams": {
+            "file": "2025-Mayor-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-1",
+          "loaderParams": {
+            "file": "2025-Ward-1-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-2",
+          "loaderParams": {
+            "file": "2025-Ward-2-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-3",
+          "loaderParams": {
+            "file": "2025-Ward-3-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-4",
+          "loaderParams": {
+            "file": "2025-Ward-4-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-5",
+          "loaderParams": {
+            "file": "2025-Ward-5-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-6",
+          "loaderParams": {
+            "file": "2025-Ward-6-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-7",
+          "loaderParams": {
+            "file": "2025-Ward-7-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-8",
+          "loaderParams": {
+            "file": "2025-Ward-8-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-9",
+          "loaderParams": {
+            "file": "2025-Ward-9-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-10",
+          "loaderParams": {
+            "file": "2025-Ward-10-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-11",
+          "loaderParams": {
+            "file": "2025-Ward-11-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-12",
+          "loaderParams": {
+            "file": "2025-Ward-12-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-13",
+          "loaderParams": {
+            "file": "2025-Ward-13-Cast-Vote-Record.csv"
+          }
+        }
+      ],
+      "files": {
+        "2025-Mayor-Cast-Vote-Record.csv": "ad4d29b5ab28904e2ca318047be7625e99d7a873",
+        "2025-Ward-1-Cast-Vote-Record.csv": "c24520477b681d762364e6238d562f0780bf93f7",
+        "2025-Ward-2-Cast-Vote-Record.csv": "3146b5f22bcc65993da1c73e822232a47e61d4a5",
+        "2025-Ward-3-Cast-Vote-Record.csv": "15a89f82c42c21ff3e944ab9c144fd32ca0dbd87",
+        "2025-Ward-4-Cast-Vote-Record.csv": "656482cdf32574b7cd0bb97095ca2398d86c0329",
+        "2025-Ward-5-Cast-Vote-Record.csv": "f9535010873d03a15b3c6ac2a9d8a50fb0f28ac1",
+        "2025-Ward-6-Cast-Vote-Record.csv": "c49e5d6ba3441c3d80f0a36906358c1f7cc8488a",
+        "2025-Ward-7-Cast-Vote-Record.csv": "687e4a955ee494f786ffbe2d7d89f3463e5968dc",
+        "2025-Ward-8-Cast-Vote-Record.csv": "ea152d2ec493363e4e99e2ecba3ab3d8146f1c9f",
+        "2025-Ward-9-Cast-Vote-Record.csv": "713c19c7aa7602c3934f635192d91790ea9d5781",
+        "2025-Ward-10-Cast-Vote-Record.csv": "c0c67fb3a9a3b37081c0460aacfae59c53fd6f1a",
+        "2025-Ward-11-Cast-Vote-Record.csv": "0a49da07891483b2c6a9c812863730fd46bd6269",
+        "2025-Ward-12-Cast-Vote-Record.csv": "f8538c14fd36bd4fe8664d58593447f41457fe9a",
+        "2025-Ward-13-Cast-Vote-Record.csv": "975048197dee942393d62d244ade9e1b3ff54473"
+      },
+      "website": null
+    },
+    "2023/05": {
+      "name": "Municipal Election",
+      "date": "2023-05-13",
+      "dataFormat": "us_mn_mpls",
+      "tabulationOptions": null,
+      "normalization": "simple",
+      "contests": [
+        {
+          "office": "ward-1",
+          "loaderParams": {
+            "file": "2023-Ward-1-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-2",
+          "loaderParams": {
+            "file": "2023-Ward-2-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-3",
+          "loaderParams": {
+            "file": "2023-Ward-3-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-4",
+          "loaderParams": {
+            "file": "2023-Ward-4-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-5",
+          "loaderParams": {
+            "file": "2023-Ward-5-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-6",
+          "loaderParams": {
+            "file": "2023-Ward-6-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-7",
+          "loaderParams": {
+            "file": "2023-Ward-7-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-8",
+          "loaderParams": {
+            "file": "2023-Ward-8-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-9",
+          "loaderParams": {
+            "file": "2023-Ward-9-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-10",
+          "loaderParams": {
+            "file": "2023-Ward-10-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-11",
+          "loaderParams": {
+            "file": "2023-Ward-11-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-12",
+          "loaderParams": {
+            "file": "2023-Ward-12-Cast-Vote-Record.csv"
+          }
+        },
+        {
+          "office": "ward-13",
+          "loaderParams": {
+            "file": "2023-Ward-13-Cast-Vote-Record.csv"
+          }
+        }
+      ],
+      "files": {
+        "2023-Ward-1-Cast-Vote-Record.csv": "a222a0557e0b38fe008d7e06bfd371e552bddf11",
+        "2023-Ward-2-Cast-Vote-Record.csv": "f4ffa6203d330869f4c050de5c2d0948bca89fb0",
+        "2023-Ward-3-Cast-Vote-Record.csv": "cf3540a4c16c686df5f9fb2401e53d4fef965704",
+        "2023-Ward-4-Cast-Vote-Record.csv": "2ac0161a1bb63af8dcf66637ef3b37e34638629c",
+        "2023-Ward-5-Cast-Vote-Record.csv": "7a825b8a3964745b6b726e7a155a72ef136da3d8",
+        "2023-Ward-6-Cast-Vote-Record.csv": "5ad71344cff7a5a8af261924535b9f770510198d",
+        "2023-Ward-7-Cast-Vote-Record.csv": "0cc5f8771875c767b87d9ae75182b607ae5aefc0",
+        "2023-Ward-8-Cast-Vote-Record.csv": "49e07263d83517c113d2137f404b01352117ccd6",
+        "2023-Ward-9-Cast-Vote-Record.csv": "7f623ba016d9e1085c4c52ae9898faa27033603c",
+        "2023-Ward-10-Cast-Vote-Record.csv": "41c935af84719770bcf85f1fd82cc2ad7fd3c236",
+        "2023-Ward-11-Cast-Vote-Record.csv": "1755cb0888e65504a00c24fcce429070b5873ed2",
+        "2023-Ward-12-Cast-Vote-Record.csv": "9dd8a8e46dfff64f43dbef06a1bd21bcb1245d94",
+        "2023-Ward-13-Cast-Vote-Record.csv": "269d1d307c6e69fc2472ff4939f90a64c6fe3c19"
+      },
+      "website": null
+    }
+  }
+}

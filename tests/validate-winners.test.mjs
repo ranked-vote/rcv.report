@@ -3,6 +3,16 @@ import path from "path";
 
 // Known valid winners from the user's list
 const EXPECTED_WINNERS = [
+  // 2025
+  {
+    year: 2025,
+    electionName: "Municipal Election",
+    jurisdictionName: "Minneapolis",
+    officeName: "Mayor",
+    winner: "Jacob Frey",
+    numCandidates: 18,
+    numRounds: 2,
+  },
   // 2022
   {
     year: 2022,

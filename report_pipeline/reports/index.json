@@ -1,6 +1,319 @@
 {
   "elections": [
     {
+      "path": "us/mn/2025/05",
+      "jurisdictionName": "Minneapolis",
+      "electionName": "Municipal Election",
+      "date": "2025-05-13",
+      "contests": [
+        {
+          "office": "ward-1",
+          "officeName": "City Council Ward 1",
+          "name": "City Council Ward 1",
+          "winner": "Elliott Payne",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "Elliott Payne",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-10",
+          "officeName": "City Council Ward 10",
+          "name": "City Council Ward 10",
+          "winner": "Aisha Chughtai",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "Aisha Chughtai",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-11",
+          "officeName": "City Council Ward 11",
+          "name": "City Council Ward 11",
+          "winner": "Jamison Whiting",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "Jamison Whiting",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-12",
+          "officeName": "City Council Ward 12",
+          "name": "City Council Ward 12",
+          "winner": "Aurin Chowdhury",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "Aurin Chowdhury",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-13",
+          "officeName": "City Council Ward 13",
+          "name": "City Council Ward 13",
+          "winner": "Linea Palmisano",
+          "numCandidates": 2,
+          "numRounds": 2,
+          "condorcetWinner": "Linea Palmisano",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-2",
+          "officeName": "City Council Ward 2",
+          "name": "City Council Ward 2",
+          "winner": "Robin Wonsley",
+          "numCandidates": 4,
+          "numRounds": 2,
+          "condorcetWinner": "Robin Wonsley",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-3",
+          "officeName": "City Council Ward 3",
+          "name": "City Council Ward 3",
+          "winner": "Michael Rainville",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "Michael Rainville",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-4",
+          "officeName": "City Council Ward 4",
+          "name": "City Council Ward 4",
+          "winner": "LaTrisha M. Vetaw",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "LaTrisha M. Vetaw",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-5",
+          "officeName": "City Council Ward 5",
+          "name": "City Council Ward 5",
+          "winner": "Pearll Warren",
+          "numCandidates": 6,
+          "numRounds": 3,
+          "condorcetWinner": "Pearll Warren",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-6",
+          "officeName": "City Council Ward 6",
+          "name": "City Council Ward 6",
+          "winner": "Jamal Osman",
+          "numCandidates": 2,
+          "numRounds": 2,
+          "condorcetWinner": "Jamal Osman",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-7",
+          "officeName": "City Council Ward 7",
+          "name": "City Council Ward 7",
+          "winner": "Elizabeth Shaffer",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "Elizabeth Shaffer",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-8",
+          "officeName": "City Council Ward 8",
+          "name": "City Council Ward 8",
+          "winner": "Soren Stevenson",
+          "numCandidates": 4,
+          "numRounds": 2,
+          "condorcetWinner": "Soren Stevenson",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-9",
+          "officeName": "City Council Ward 9",
+          "name": "City Council Ward 9",
+          "winner": "Jason Chavez",
+          "numCandidates": 2,
+          "numRounds": 2,
+          "condorcetWinner": "Jason Chavez",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "mayor",
+          "officeName": "Mayor",
+          "name": "Mayor",
+          "winner": "Jacob Frey",
+          "numCandidates": 16,
+          "numRounds": 2,
+          "condorcetWinner": "Jacob Frey",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        }
+      ]
+    },
+    {
+      "path": "us/mn/2023/05",
+      "jurisdictionName": "Minneapolis",
+      "electionName": "Municipal Election",
+      "date": "2023-05-13",
+      "contests": [
+        {
+          "office": "ward-1",
+          "officeName": "City Council Ward 1",
+          "name": "City Council Ward 1",
+          "winner": "Elliott Payne",
+          "numCandidates": 2,
+          "numRounds": 2,
+          "condorcetWinner": "Elliott Payne",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-10",
+          "officeName": "City Council Ward 10",
+          "name": "City Council Ward 10",
+          "winner": "Aisha Chughtai",
+          "numCandidates": 4,
+          "numRounds": 2,
+          "condorcetWinner": "Aisha Chughtai",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-11",
+          "officeName": "City Council Ward 11",
+          "name": "City Council Ward 11",
+          "winner": "Emily Koski",
+          "numCandidates": 2,
+          "numRounds": 2,
+          "condorcetWinner": "Emily Koski",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-12",
+          "officeName": "City Council Ward 12",
+          "name": "City Council Ward 12",
+          "winner": "Aurin Chowdhury",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "Aurin Chowdhury",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-13",
+          "officeName": "City Council Ward 13",
+          "name": "City Council Ward 13",
+          "winner": "Linea Palmisano",
+          "numCandidates": 4,
+          "numRounds": 2,
+          "condorcetWinner": "Linea Palmisano",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-2",
+          "officeName": "City Council Ward 2",
+          "name": "City Council Ward 2",
+          "winner": "Robin Wonsley",
+          "numCandidates": 2,
+          "numRounds": 2,
+          "condorcetWinner": "Robin Wonsley",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-3",
+          "officeName": "City Council Ward 3",
+          "name": "City Council Ward 3",
+          "winner": "Michael Rainville",
+          "numCandidates": 2,
+          "numRounds": 2,
+          "condorcetWinner": "Michael Rainville",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-4",
+          "officeName": "City Council Ward 4",
+          "name": "City Council Ward 4",
+          "winner": "LaTrisha M. Vetaw",
+          "numCandidates": 4,
+          "numRounds": 2,
+          "condorcetWinner": "LaTrisha M. Vetaw",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-5",
+          "officeName": "City Council Ward 5",
+          "name": "City Council Ward 5",
+          "winner": "Jeremiah Bey Ellison",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "Jeremiah Bey Ellison",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-6",
+          "officeName": "City Council Ward 6",
+          "name": "City Council Ward 6",
+          "winner": "Jamal Osman",
+          "numCandidates": 4,
+          "numRounds": 2,
+          "condorcetWinner": "Jamal Osman",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-7",
+          "officeName": "City Council Ward 7",
+          "name": "City Council Ward 7",
+          "winner": "Katie Cashman",
+          "numCandidates": 3,
+          "numRounds": 2,
+          "condorcetWinner": "Katie Cashman",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-8",
+          "officeName": "City Council Ward 8",
+          "name": "City Council Ward 8",
+          "winner": "Andrea Jenkins",
+          "numCandidates": 4,
+          "numRounds": 2,
+          "condorcetWinner": "Andrea Jenkins",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        },
+        {
+          "office": "ward-9",
+          "officeName": "City Council Ward 9",
+          "name": "City Council Ward 9",
+          "winner": "Jason Chavez",
+          "numCandidates": 2,
+          "numRounds": 2,
+          "condorcetWinner": "Jason Chavez",
+          "hasNonCondorcetWinner": false,
+          "hasWriteInByName": true
+        }
+      ]
+    },
+    {
       "path": "us/ny/nyc/2025/07",
       "jurisdictionName": "New York City",
       "electionName": "Primary Election",
