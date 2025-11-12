@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import type { IElectionIndexEntry } from "../report_types";
 
   export let elections: IElectionIndexEntry[];
@@ -59,7 +59,7 @@
         return true;
       });
       // Sort contests using natural sort to handle ordinals correctly
-      const sortedContests = [...filteredContests].sort((a, b) => 
+      const sortedContests = [...filteredContests].sort((a, b) =>
         naturalSort(a.officeName, b.officeName)
       );
       return {
@@ -73,11 +73,14 @@
   $: electionsByYear = (() => {
     let map = new Map<string, IElectionIndexEntry[]>();
     filteredElections.forEach((e) => {
-      let year = e.date.substr(0, 4);
+      let year = e.date.substring(0, 4);
       if (!map.has(year)) {
         map.set(year, []);
       }
-      map.get(year).push(e);
+      const yearElections = map.get(year);
+      if (yearElections) {
+        yearElections.push(e);
+      }
     });
     // Sort elections within each year by jurisdiction name alphabetically
     map.forEach((elections, year) => {

@@ -1,9 +1,15 @@
-<script>
-	export let status;
-	export let error;
+<script lang="ts">
+	import { page } from '$app/stores';
 
-	const dev = process.env.NODE_ENV === 'development';
+	export let status: number;
+	export let error: Error;
+
+	const dev = import.meta.env.DEV;
 </script>
+
+<svelte:head>
+	<title>{status}</title>
+</svelte:head>
 
 <style>
 	h1, p {
@@ -27,14 +33,11 @@
 	}
 </style>
 
-<svelte:head>
-	<title>{status}</title>
-</svelte:head>
-
 <h1>{status}</h1>
 
-<p>{error.message}</p>
+<p>{error?.message || 'An error occurred'}</p>
 
-{#if dev && error.stack}
+{#if dev && error?.stack}
 	<pre>{error.stack}</pre>
 {/if}
+

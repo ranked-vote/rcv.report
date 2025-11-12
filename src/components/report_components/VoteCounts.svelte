@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import type {
     ICandidateVotes,
     CandidateId,
@@ -18,7 +18,7 @@
   const width = 600;
 
   // Sort by total votes (firstRoundVotes + transferVotes) in descending order
-  $: sortedCandidateVotes = [...candidateVotes].sort((a, b) => 
+  $: sortedCandidateVotes = [...candidateVotes].sort((a, b) =>
     (b.firstRoundVotes + b.transferVotes) - (a.firstRoundVotes + a.transferVotes)
   );
 

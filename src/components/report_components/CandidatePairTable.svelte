@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import type {
     ICandidatePairTable,
     ICandidatePairEntry,
@@ -11,11 +11,7 @@
   export let data: ICandidatePairTable;
   export let rowLabel: string;
   export let colLabel: string;
-  export let generateTooltip: (
-    c1: Allocatee,
-    c2: Allocatee,
-    entry: ICandidatePairEntry
-  ) => string;
+  export let generateTooltip: ((c1: Allocatee, c2: Allocatee, entry: ICandidatePairEntry) => string) | undefined = undefined;
 
   const { getCandidate } = getContext("candidates") as CandidateContext;
 
@@ -89,12 +85,12 @@
 <table>
   <tbody>
     <tr>
-      <td/>
+      <td></td>
       <td class="colsLabel" colspan={data.cols.length + 1}>{colLabel}</td>
     </tr>
     <tr>
       <td class="rowsLabel" rowspan={data.rows.length + 1}><div>{rowLabel}</div></td>
-      <td />
+      <td></td>
       {#each data.cols as col}
         <td class="colLabel">
           <div>{getCandidate(col).name}</div>

@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import type {
     IContestReport,
     Allocatee,
@@ -63,7 +63,7 @@
 
 {#if hasReport}
 <div class="row">
-  <p class="description" />
+  <p class="description"></p>
   <div class="electionHeader">
     <h3>
       <a href="/">rcv.report</a>
@@ -165,7 +165,7 @@
       data={report.pairwisePreferences}
       rowLabel="Preferred Candidate"
       colLabel="Less-preferred Candidate"
-      generateTooltip={(row, col, entry) => `
+      generateTooltip={(row: Allocatee, col: Allocatee, entry: ICandidatePairEntry) => `
         Of the <strong>${entry.denominator.toLocaleString()}</strong> voters
         who expressed a preference, <strong>${Math.round(entry.frac * 1000) / 10}%</strong>
         (<strong>${entry.numerator.toLocaleString()}</strong>) preferred
@@ -234,7 +234,7 @@
 
     <div class="rightCol">
       <CandidatePairTable
-        generateTooltip={(row, col, entry) => (col !== EXHAUSTED ? `
+        generateTooltip={(row: Allocatee, col: Allocatee, entry: ICandidatePairEntry) => (col !== EXHAUSTED ? `
         Of the <strong>${entry.denominator.toLocaleString()}</strong> ballots that ranked <strong>${getCandidate(row).name}</strong>
         first, <strong>${entry.numerator.toLocaleString()}</strong>
         (<strong>${Math.round(entry.frac * 1000) / 10}%</strong>)

@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import type {
     ITabulatorRound,
     Allocatee,
@@ -200,6 +200,10 @@
     for (let transfer of round.transfers) {
       let last = lastVotes.get(transfer.from);
       let cur = curVotes.get(transfer.to);
+
+      if (!last || !cur) {
+        continue;
+      }
 
       let width = transfer.count * voteScale;
 

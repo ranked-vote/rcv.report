@@ -1,4 +1,6 @@
-<title>About rcv.report</title>
+<svelte:head>
+	<title>About rcv.report</title>
+</svelte:head>
 
 <div class="container">
 <div class="description">
@@ -77,3 +79,4 @@
   The font is <a href="https://github.com/adobe-fonts/source-sans-pro">Source Sans Pro</a>.
 </p>
 </div>
+

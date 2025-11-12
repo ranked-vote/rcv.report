@@ -1,20 +1,13 @@
-<script context="module">
-  export async function preload(page, session) {
-    let result = await this.fetch("/api/reports.json");
-    let index = await result.json();
-    return index;
-  }
+<script lang="ts">
+	import type { PageData } from './$types';
+	import ElectionIndex from '../components/ElectionIndex.svelte';
+
+	export let data: PageData;
 </script>
 
-<script>
-  // TODO: this could be a TS script once this Sapper issue is closed:
-  // https://github.com/sveltejs/sapper/pull/1222
-  import ElectionIndex from "../components/ElectionIndex.svelte";
-
-  export let elections;
-</script>
-
-<title>rcv.report: detailed reports on ranked-choice elections.</title>
+<svelte:head>
+	<title>rcv.report: detailed reports on ranked-choice elections.</title>
+</svelte:head>
 
 <div class="wide container">
 <div class="row">
@@ -55,7 +48,8 @@
   </div>
 
   <div class="rightCol">
-    <ElectionIndex {elections} />
+    <ElectionIndex elections={data.elections} />
   </div>
 </div>
 </div>
+

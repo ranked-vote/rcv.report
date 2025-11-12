@@ -1,4 +1,6 @@
-<title>rcv.report: Understanding Discrepancies</title>
+<svelte:head>
+	<title>rcv.report: Understanding Discrepancies</title>
+</svelte:head>
 
 <div class="container">
 <div class="description">
@@ -8,7 +10,7 @@
 <p>
   All of the analysis that goes into rcv.report reports is based only
   on ballot-level data. This includes the IRV tabulation, which backs
-  the “Runoff Rounds” section.
+  the "Runoff Rounds" section.
 </p>
 
 <p>
@@ -43,8 +45,9 @@
   board does. But statues aren't code, so there are sometimes cases
   where there are ambiguities around edge cases. In particular, the treatment
   of write-in candidates can be a complicating factor, because many jurisdictions
-  replace them with a generic “write in” dummy candidate, which does not always
+  replace them with a generic "write in" dummy candidate, which does not always
   reflect how they are treated in the official tabulation.
 </p>
 
 </div>
+

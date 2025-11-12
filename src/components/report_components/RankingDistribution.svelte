@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import type { IRankingDistribution, ICandidate, CandidateId } from "../../report_types";
   import tooltip from "../../tooltip";
 
@@ -26,7 +26,7 @@
   // Calculate ranking matrix data as reactive statement
   $: rankingMatrix = (() => {
     const matrix: RankingMatrixRow[] = [];
-    
+
     if (rankingDistribution?.overallDistribution && rankingDistribution?.candidateDistributions) {
       // First, add the overall row
       const overallDistributions: { [rankCount: number]: { count: number; percentage: number } } = {};
@@ -52,14 +52,14 @@
         // Convert candidateId to string for JSON key access
         const candidateIdStr = String(candidateId);
         const candidateDistribution = rankingDistribution.candidateDistributions[candidateIdStr];
-        
+
         if (!candidateDistribution) continue;
-        
+
         // Calculate total voters for this candidate
         const totalVoters = rankingDistribution.candidateTotals[candidateIdStr] || 0;
-        
+
         if (totalVoters === 0) continue;
-        
+
         // Convert raw counts to percentage format
         const distributions: { [rankCount: number]: { count: number; percentage: number } } = {};
         Object.entries(candidateDistribution).forEach(([rankCount, count]) => {
@@ -80,7 +80,7 @@
         });
       }
     }
-    
+
     return matrix;
   })();
 
@@ -121,7 +121,7 @@
   function generateMatrixCellTooltip(row: RankingMatrixRow, numRanks: number): string {
     const data = row.distributions[numRanks];
     if (!data) return '';
-    
+
     return `${row.candidateName}: ${data.count.toLocaleString()} voters (${data.percentage.toFixed(1)}%) ranked exactly ${numRanks} candidate${numRanks !== 1 ? 's' : ''}`;
   }
 </script>
